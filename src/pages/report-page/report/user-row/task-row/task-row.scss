@@ -1,0 +1,23 @@
+.worklog {
+  background-color: lightgoldenrodyellow;
+}
+
+.easy-edit-component-wrapper {
+  width: 100%;
+}
+
+.timespent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment {
+  min-height: 18px;
+  width: 100%;
+  display: block;
+}
+
+.comment-cell {
+  cursor: pointer;
+}

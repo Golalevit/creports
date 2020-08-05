@@ -1,0 +1,9 @@
+.range {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  &__datepicker {
+    margin: 5px;
+  }
+}

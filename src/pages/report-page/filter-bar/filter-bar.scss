@@ -1,0 +1,14 @@
+.filters {
+  display: flex;
+  flex: 1;
+
+  &__projects {
+    flex: 1;
+  }
+
+  &__controlls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

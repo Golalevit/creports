@@ -1,0 +1,33 @@
+.reporter {
+  width: 30%;
+}
+
+.comment-title {
+  width: 42%;
+}
+
+.worklog-date {
+  width: 8%;
+}
+
+.timelog {
+  width: 20%;
+}
+
+.empty-worklog {
+  text-align: center;
+}
+
+.table-header, .table-footer{
+  background-color: lightcoral;
+}
+
+.report-comment {
+  background-color: lightgoldenrodyellow;
+}
+
+.report-total {
+  font-weight: bold!important;
+  text-align: right!important;
+  font-size: 1em!important;
+}
