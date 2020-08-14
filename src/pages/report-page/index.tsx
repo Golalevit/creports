@@ -1,7 +1,4 @@
-import React, {
-  FC, useState, useEffect,
-} from 'react';
-
+import React, { FC, useState, useEffect } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,7 +19,7 @@ import './report-page.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ReportPage: FC = () => {
-  const dipatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { report, reportLoading } = useSelector(getReport);
   const [comment, setComment] = useState<string>('');
@@ -39,15 +36,19 @@ export const ReportPage: FC = () => {
     setEmails(data);
   };
 
+  const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key)
+    ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
+
   const [filters, setFilters] = useState<FiltersConfig>({
-    startDate: new Date(),
-    endDate: new Date(),
-    projects: localStorage.getItem('projects')
-      ? JSON.parse(localStorage.getItem('projects') || '{}') : [],
+    startDate: new Date(getLocalStorage('startDate', new Date())),
+    endDate: new Date(getLocalStorage('endDate', new Date())),
+    projects: getLocalStorage('projects', []),
   });
 
   const _setFilters = (data: FiltersConfig) => {
     localStorage.setItem('projects', JSON.stringify(data.projects));
+    localStorage.setItem('startDate', JSON.stringify(data.startDate));
+    localStorage.setItem('endDate', JSON.stringify(data.endDate));
 
     setFilters(data);
   };
@@ -55,7 +56,7 @@ export const ReportPage: FC = () => {
   const [updatedReport, setUpdatedReport] = useState<ReportResponce>();
 
   const generateReport = () => {
-    dipatch(getReportWorker({
+    dispatch(getReportWorker({
       startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
       endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
       projects: filters.projects.map((p: { label: string; value: number }) => p.value),
@@ -70,7 +71,7 @@ export const ReportPage: FC = () => {
       reportDate: moment().format('YYYY-MM-DD'),
     };
 
-    dipatch(sendEmailWorker(data, {
+    dispatch(sendEmailWorker(data, {
       cOnSuccess: () => toast('Message Sent'),
     }));
   };
@@ -78,6 +79,12 @@ export const ReportPage: FC = () => {
   useEffect(() => {
     setUpdatedReport(report);
   }, [report]);
+
+  useEffect(() => {
+    if (filters.projects && filters.startDate && filters.endDate) {
+      generateReport();
+    }
+  }, []);
 
   return (
     <div className="report">
