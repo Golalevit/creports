@@ -1,16 +1,18 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
-import { ExtendedRouter } from '@wellyes/react-router-extended';
+import {
+  BrowserRouter as Router, Switch, Redirect, Route,
+} from 'react-router-dom';
 
-import { routes } from './router-paths';
-import { PAGES } from './pages';
+import { Layout } from '@/layout';
+import { LoginPage } from '@pages/login';
+import { ExtendedRouter } from '@wellyes/react-router-extended';
+import { PAGES, prefix } from './pages';
 
 export const BrowserRouter: FC = () => (
   <Router>
     <Switch>
-      {routes.map((route) => (
-        <ExtendedRouter key={route.path} redirectUrl={PAGES.LOGIN_PAGE} {...route} />
-      ))}
+      <ExtendedRouter path={PAGES.LOGIN_PAGE} component={LoginPage} />
+      <Route path={`${prefix}/*`} component={Layout} />
       <Redirect exact from="/" to={PAGES.REPORT_PAGE} />
     </Switch>
   </Router>
