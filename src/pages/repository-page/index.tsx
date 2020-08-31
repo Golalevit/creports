@@ -1,17 +1,17 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRepositoriesData } from '@store/repositories/repositories.selectors';
 import { FilterBar } from '@pages/repository-page/filter-bar';
 import { FiltersConfig } from '@pages/repository-page/types';
 import { Button } from '@components/ui-kit/button';
 import './repository-page.scss';
-import { Card } from '@material-ui/core';
-import { getReportWorker } from '@store/report/report.actions';
 import moment from 'moment';
 import { getStatsWorker } from '@/store/repositories/repositories.actions';
 
 export const RepositoryPage: FC = () => {
   const dispatch = useDispatch();
+
+  const { repositoriesLoading } = useSelector(getRepositoriesData);
 
   const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
 
@@ -52,5 +52,3 @@ export const RepositoryPage: FC = () => {
     </div>
   );
 };
-
-  const { repositoriesLoading } = useSelector(getRepositoriesData);
