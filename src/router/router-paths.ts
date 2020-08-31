@@ -2,6 +2,7 @@
 
 import { ReportPage } from '@pages/report-page';
 import { LoginPage } from '@pages/login';
+import { RepositoryPage } from '@pages/repository-page';
 
 import { LoginGuard } from '@/guards/login.guard';
 
@@ -14,10 +15,14 @@ export const routes = [
   },
   {
     path: PAGES.REPORT_PAGE,
-    guards: [
-      new LoginGuard(),
-    ],
+    guards: [new LoginGuard()],
     component: ReportPage,
+    exact: true,
+  },
+  {
+    path: PAGES.REPOSITORIES_PAGE,
+    guards: [new LoginGuard()],
+    component: RepositoryPage,
     exact: true,
   },
 ];
