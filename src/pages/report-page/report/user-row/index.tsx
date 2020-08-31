@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import { TableRow, TableCell } from '@material-ui/core';
 import { Button } from '@components/ui-kit/button';
 
-import { Task, ReportResponce } from '@store/report/types';
+import { Task, ReportResponse } from '@store/report/types';
 import { updateUserState } from '@utils/state-updater';
 
 import { TaskRow } from './task-row';
@@ -23,7 +23,7 @@ export const UserRow: FC<UserRowProps> = ({
   const userUpdater = updateUserState(userIndex);
 
   const addTask = () => {
-    updateReport((prevState: ReportResponce) => {
+    updateReport((prevState: ReportResponse) => {
       const newState = prevState.users.map((u, i) => (i === userIndex
         ? {
           ...u,
@@ -48,7 +48,7 @@ export const UserRow: FC<UserRowProps> = ({
               hideSaveButton
               hideCancelButton
               onSave={(value: string) => {
-                updateReport((prevState: ReportResponce) => userUpdater(prevState, 'name', value));
+                updateReport((prevState: ReportResponse) => userUpdater(prevState, 'name', value));
               }}
             />
             <Button label="Add Task" onClick={addTask} />

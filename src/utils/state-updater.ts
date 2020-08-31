@@ -1,7 +1,7 @@
-import { ReportResponce } from '@store/report/types';
+import { ReportResponse } from '@store/report/types';
 
 export const updateTaksState = (userIndex: number, taskIndex: number) => (
-  prevState: ReportResponce,
+  prevState: ReportResponse,
   field: string,
   value: any,
   addtional: {} = {},
@@ -19,7 +19,7 @@ export const updateTaksState = (userIndex: number, taskIndex: number) => (
 };
 
 export const updateUserState = (userIndex: number) => (
-  prevState: ReportResponce,
+  prevState: ReportResponse,
   field: string,
   value: any,
 ) => {
