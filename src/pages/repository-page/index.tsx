@@ -12,10 +12,6 @@ import { getStatsWorker } from '@/store/repositories/repositories.actions';
 
 export const RepositoryPage: FC = () => {
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getRepositoriesWorker());
-  // }, []);
-  const { repositoriesLoading } = useSelector(getRepositoriesData);
 
   const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
 
@@ -56,3 +52,5 @@ export const RepositoryPage: FC = () => {
     </div>
   );
 };
+
+  const { repositoriesLoading } = useSelector(getRepositoriesData);
