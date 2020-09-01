@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import _intersectionBy from 'lodash/intersectionBy';
 import {
   getRepositoriesData,
   getUsersData,
@@ -23,8 +22,6 @@ export const RepositoryPage: FC = () => {
   const { repositoriesLoading, repositories } = useSelector(getRepositoriesData);
   const { users, usersLoading } = useSelector(getUsersData);
   const usersList = useSelector(getUsers);
-
-  const { repositoriesLoading } = useSelector(getRepositoriesData);
 
   const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
 
@@ -72,10 +69,21 @@ export const RepositoryPage: FC = () => {
     );
   };
 
+  const intersectionByLabel = (
+    first: RepositoriesResponse[],
+    second: RepositoriesResponse[],
+  ): RepositoriesResponse[] => {
+    const matched: RepositoriesResponse[] = [];
+    first.forEach((elem1) => second.forEach((elem2) => {
+      if (elem1.label === elem2.label) matched.push(elem1);
+    }));
+    return matched;
+  };
+
   useEffect(() => {
     setUserFilters({
       ...userFilters,
-      list: _intersectionBy(users, userFilters.list, 'label'),
+      list: intersectionByLabel(userFilters.list, users),
     });
   }, [users]);
 
