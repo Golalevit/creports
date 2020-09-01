@@ -1,12 +1,12 @@
-export interface ProjectsResponce {
+export interface ProjectsResponse {
   value: number;
   label: string;
 }
 
 export interface ReportState {
-  projects: ProjectsResponce[];
+  projects: ProjectsResponse[];
   projectsLoading: boolean;
-  report: ReportResponce | undefined;
+  report: ReportResponse | undefined;
   reportLoading: boolean;
 }
 
@@ -30,7 +30,7 @@ export interface User {
   showEditor?: boolean | undefined;
 }
 
-export interface ReportResponce {
+export interface ReportResponse {
   total: string;
   users: User[];
 }

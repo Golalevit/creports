@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Card } from '@material-ui/core';
 import { getReport } from '@store/report/report.selectors';
 import { getReportWorker, sendEmailWorker } from '@store/report/report.actions';
-import { ReportResponce } from '@store/report/types';
+import { ReportResponse } from '@store/report/types';
 
 import { Button } from '@components/ui-kit/button';
 import { Spinner } from '@components/spinner';
@@ -53,7 +53,7 @@ export const ReportPage: FC = () => {
     setFilters(data);
   };
 
-  const [updatedReport, setUpdatedReport] = useState<ReportResponce>();
+  const [updatedReport, setUpdatedReport] = useState<ReportResponse>();
 
   const generateReport = () => {
     dispatch(getReportWorker({

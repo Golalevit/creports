@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import moment from 'moment';
 
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
-import { ReportResponce } from '@store/report/types';
+import { ReportResponse } from '@store/report/types';
 import { updateTaksState, updateUserState } from '@utils/state-updater';
 import { TaskRowProps } from './types';
 
@@ -25,7 +25,7 @@ export const TaskRow: FC<TaskRowProps> = ({
           hideSaveButton
           hideCancelButton
           onSave={(value: string) => {
-            updateReport((prevState: ReportResponce) => taskUpdater(prevState, 'name', value));
+            updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'name', value));
           }}
         />
       </TableCell>
@@ -36,7 +36,7 @@ export const TaskRow: FC<TaskRowProps> = ({
             className="comment"
             value={task.comment}
             onBlur={(v, u, ref) => {
-              updateReport((prevState: ReportResponce) => taskUpdater(prevState, 'comment', ref.getHTML(), {
+              updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'comment', ref.getHTML(), {
                 showEditor: false,
               }));
             }}
@@ -45,7 +45,7 @@ export const TaskRow: FC<TaskRowProps> = ({
           <div
             dangerouslySetInnerHTML={{ __html: task.comment }}
             onClick={() => {
-              updateReport((prevState: ReportResponce) => taskUpdater(prevState, 'showEditor', true));
+              updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'showEditor', true));
             }}
             className="comment comment-cell"
             aria-hidden="true"
@@ -66,7 +66,7 @@ export const TaskRow: FC<TaskRowProps> = ({
             hideSaveButton
             hideCancelButton
             onSave={(value: string) => {
-              updateReport((prevState: ReportResponce) => {
+              updateReport((prevState: ReportResponse) => {
                 const newTaskState = taskUpdater(prevState, 'timeSpent', value);
                 const userTotalHours = newTaskState.users[userIndex]
                   .tasks
@@ -84,7 +84,7 @@ export const TaskRow: FC<TaskRowProps> = ({
             color="primary"
             checked={!task.excluded}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              updateReport((prevState: ReportResponce) => taskUpdater(
+              updateReport((prevState: ReportResponse) => taskUpdater(
                 prevState,
                 'excluded',
                 !e.target.checked,
