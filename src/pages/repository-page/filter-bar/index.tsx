@@ -4,16 +4,12 @@ import { useSelector } from 'react-redux';
 import { Autocomplete } from '@components/ui-kit/autocomplete';
 import { RangeDatePicker } from '@components/ui-kit/range-datepicker';
 
-import { FilterBarProps } from './types';
-
 import './filter-bar.scss';
 import { getRepositoriesData } from '@store/repositories/repositories.selectors';
 import { getRepositoriesWorker } from '@store/repositories/repositories.actions';
+import { FilterBarProps } from './types';
 
-export const FilterBar: FC<FilterBarProps> = ({
-  filters, setFilters,
-}) => {
-  console.log(filters);
+export const FilterBar: FC<FilterBarProps> = ({ filters, setFilters }) => {
   const { repositories, repositoriesLoading } = useSelector(getRepositoriesData);
 
   return (
