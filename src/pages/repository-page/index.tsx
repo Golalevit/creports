@@ -69,21 +69,10 @@ export const RepositoryPage: FC = () => {
     );
   };
 
-  const intersectionByLabel = (
-    first: RepositoriesResponse[],
-    second: RepositoriesResponse[],
-  ): RepositoriesResponse[] => {
-    const matched: RepositoriesResponse[] = [];
-    first.forEach((elem1) => second.forEach((elem2) => {
-      if (elem1.label === elem2.label) matched.push(elem1);
-    }));
-    return matched;
-  };
-
   useEffect(() => {
     setUserFilters({
       ...userFilters,
-      list: intersectionByLabel(userFilters.list, users),
+      list: userFilters.list.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
     });
   }, [users]);
 
