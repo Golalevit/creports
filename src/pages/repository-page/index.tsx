@@ -4,6 +4,7 @@ import {
   getRepositoriesData,
   getUsersData,
   getUsers,
+  getStats,
 } from '@store/repositories/repositories.selectors';
 import { FilterBar } from '@pages/repository-page/filter-bar';
 import { FiltersConfig } from '@pages/repository-page/types';
@@ -16,12 +17,16 @@ import {
 } from '@/store/repositories/repositories.actions';
 import './repository-page.scss';
 import { RepositoriesResponse } from '@/store/repositories/types';
+import { Spinner } from '@/components/spinner';
+import { Stats } from './stats';
 
 export const RepositoryPage: FC = () => {
   const dispatch = useDispatch();
   const { repositoriesLoading, repositories } = useSelector(getRepositoriesData);
   const { users, usersLoading } = useSelector(getUsersData);
-  const usersList = useSelector(getUsers);
+
+  const userNames = useSelector(getUsers);
+  const { stats, statsLoading } = useSelector(getStats);
 
   const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
 
@@ -90,7 +95,7 @@ export const RepositoryPage: FC = () => {
         startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
         endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
         repos: filters.list.map((p: { label: string; value: number }) => p.value),
-        users: usersList,
+        users: userFilters.list.length ? userFilters.list.map((user) => user.label) : userNames,
       }),
     );
   };
@@ -125,6 +130,7 @@ export const RepositoryPage: FC = () => {
           setFilters={setUserFilters}
         />
       ) : null}
+      {statsLoading ? <Spinner /> : <Stats stats={stats} />}
     </div>
   );
 };
