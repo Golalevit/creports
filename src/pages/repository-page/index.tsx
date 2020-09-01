@@ -24,6 +24,8 @@ export const RepositoryPage: FC = () => {
   const { users, usersLoading } = useSelector(getUsersData);
   const usersList = useSelector(getUsers);
 
+  const { repositoriesLoading } = useSelector(getRepositoriesData);
+
   const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
 
   const [filters, setFilters] = useState<FiltersConfig>({
