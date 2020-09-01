@@ -9,8 +9,12 @@ import { AutocompleteProps } from './types';
 import './autocomplete.scss';
 
 export const Autocomplete: FC<AutocompleteProps> = ({
-  label, options, isLoading = false, fetchOptions = () => {},
-  value, onChange = () => {},
+  label,
+  options,
+  isLoading = false,
+  fetchOptions = () => ({ type: '' }),
+  value,
+  onChange = () => {},
 }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);

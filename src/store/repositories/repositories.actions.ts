@@ -8,9 +8,12 @@ const actionCreator = actionCreatorFactory('REPOSITORY');
 export const getRepositories = actionCreator.async<object, RepositoriesResponse[], ErrorResponse>(
   'GET_STATS',
 );
+
 export const getStats = actionCreator.async<object, StatsResponse[], ErrorResponse>(
   'GET_REPOSITORIES',
 );
+
+export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
 
 export const getRepositoriesWorker = createDefaultFetchWorker(
   getRepositories,
@@ -19,3 +22,5 @@ export const getRepositoriesWorker = createDefaultFetchWorker(
 );
 
 export const getStatsWorker = createDefaultFetchWorker(getStats, '/repository/stats', 'post');
+
+export const getUsersWorker = createDefaultFetchWorker(getUsers, '/repository/users', 'post');

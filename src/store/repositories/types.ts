@@ -6,6 +6,8 @@ export interface RepositoriesResponse {
 export interface RepositoriesState {
   repositories: RepositoriesResponse[];
   repositoriesLoading: boolean;
+  users: string[];
+  usersLoading: boolean;
 }
 
 export interface StatsResponse {
