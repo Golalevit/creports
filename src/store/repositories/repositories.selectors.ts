@@ -14,3 +14,8 @@ export const getUsersData = createSelector(getRepositoriesState, ({ users, users
 }));
 
 export const getUsers = createSelector(getRepositoriesState, (state) => state.users);
+
+export const getStats = createSelector(getRepositoriesState, ({ stats, statsLoading }) => ({
+  stats,
+  statsLoading,
+}));

@@ -8,6 +8,8 @@ export interface RepositoriesState {
   repositoriesLoading: boolean;
   users: string[];
   usersLoading: boolean;
+  stats: StatsResponse[];
+  statsLoading: boolean;
 }
 
 export interface StatsResponse {
