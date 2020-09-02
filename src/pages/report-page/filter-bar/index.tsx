@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getProjectsWorker } from '@store/report/report.actions';
+import { getProjects } from '@store/report/report.actions';
 import { getProjectsData } from '@store/report/report.selectors';
 
 import { Autocomplete } from '@components/ui-kit/autocomplete';
@@ -29,7 +29,7 @@ export const FilterBar: FC<FilterBarProps> = ({
           options={projects}
           label="Projects"
           isLoading={projectsLoading}
-          fetchOptions={getProjectsWorker}
+          fetchOptions={getProjects}
         />
       </div>
       <div className="filters__controlls">

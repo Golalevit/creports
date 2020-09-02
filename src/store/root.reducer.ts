@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { repositoriesReducer } from '@store/repositories/repositories.reducers';
 import { authReducer } from '@store/auth/auth.slice';
-import { reportReducer } from './report/report.reducers';
+import { reportReducer } from './report/report.slice';
 
 export const rootReducer = combineReducers({
   auth: authReducer,

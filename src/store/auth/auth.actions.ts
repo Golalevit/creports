@@ -1,9 +1,9 @@
 import { createDefaultThunk } from '@utils/default-thunk';
 import axiosInstance from '@utils/axios';
 
-export const loginUser = createDefaultThunk(
+export const loginUser = createDefaultThunk<any, string>(
   'auth/login',
-  async (code: string) => {
+  async (code) => {
     await axiosInstance.post<boolean>('/auth', code);
   },
 );

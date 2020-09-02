@@ -2,9 +2,11 @@ import React, { FC, useState, useEffect } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { AppDispatch } from '@store/types';
 import { Card } from '@material-ui/core';
 import { getReport } from '@store/report/report.selectors';
-import { getReportWorker, sendEmailWorker } from '@store/report/report.actions';
+import { getReport as getReportAction, sendEmail as sendEmailAction } from '@store/report/report.actions';
 import { ReportResponse } from '@store/report/types';
 
 import { Button } from '@components/ui-kit/button';
@@ -19,7 +21,7 @@ import './report-page.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ReportPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const { report, reportLoading } = useSelector(getReport);
   const [comment, setComment] = useState<string>('');
@@ -56,24 +58,24 @@ export const ReportPage: FC = () => {
   const [updatedReport, setUpdatedReport] = useState<ReportResponse>();
 
   const generateReport = () => {
-    dispatch(getReportWorker({
+    dispatch(getReportAction({
       startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
       endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
       projects: filters.projects.map((p: { label: string; value: number }) => p.value),
     }));
   };
 
-  const sendEmail = () => {
+  const sendEmail = async () => {
     const data = {
       ...emails,
       usersWorklogs: updatedReport?.users,
       reportComment: comment,
       reportDate: moment().format('YYYY-MM-DD'),
     };
-
-    dispatch(sendEmailWorker(data, {
-      cOnSuccess: () => toast('Message Sent'),
-    }));
+    try {
+      unwrapResult(await dispatch(sendEmailAction(data)));
+      toast('Message sent!');
+    } catch {}
   };
 
   useEffect(() => {

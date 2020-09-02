@@ -1,14 +1,40 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { createDefaultFetchWorker } from '@utils/builder/default-actions';
-import { ProjectsResponse, ReportResponse } from './types';
-import { ErrorResponse } from '../types';
+import { createDefaultThunk } from '@utils/default-thunk';
+import axiosInstance from '@utils/axios';
+import { ReportInterface } from '@models/interfaces/report';
+import { EmailInterface } from '@models/interfaces/email';
+import { ProjectsResponse } from './types';
 
-const actionCreator = actionCreatorFactory('REPORT');
+export const sendEmail = createDefaultThunk<any, EmailInterface>(
+  'report/send-email',
+  async (email, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post('/mail', email);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
+export const getProjects = createDefaultThunk(
+  'report/get-projects',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get<ProjectsResponse[]>('/projects');
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
 
-export const getProjects = actionCreator.async<object, ProjectsResponse[], ErrorResponse>('GET_PROJECTS');
-export const getReport = actionCreator.async<object, ReportResponse, ErrorResponse>('GET_REPORT');
-export const sendEmail = actionCreator.async<object, any, ErrorResponse>('SEND_EMAIL');
-
-export const getProjectsWorker = createDefaultFetchWorker(getProjects, '/projects', 'get');
-export const getReportWorker = createDefaultFetchWorker(getReport, '/report', 'post');
-export const sendEmailWorker = createDefaultFetchWorker(sendEmail, '/mail', 'post');
+export const getReport = createDefaultThunk<any, ReportInterface>(
+  'report/get-report',
+  async (report, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post('/report', report);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
