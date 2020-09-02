@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect';
-import { RootReducer } from '@/store/types';
+import { createSelector } from '@reduxjs/toolkit'
+import { RootState } from '@store/types';
 
-export const getReportState = (state: RootReducer) => state.report;
+export const getReportState = (state: RootState) => state.report;
 
 export const getProjectsData = createSelector(
   getReportState,

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { RootReducer } from '@store/types';
+import { RootState } from '@store/types';
 
-export const getRepositoriesState = (state: RootReducer) => state.repositories;
+export const getRepositoriesState = (state: RootState) => state.repositories;
 
 export const getRepositoriesData = createSelector(
   getRepositoriesState,

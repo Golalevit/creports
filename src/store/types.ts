@@ -1,14 +1,10 @@
-import { AuthState } from '@store/auth/types';
-import { ReportState } from '@store/report/types';
-import { RepositoriesState } from '@store/repositories/types';
-
-export interface RootReducer {
-  auth: AuthState;
-  report: ReportState;
-  repositories: RepositoriesState;
-}
+import { rootReducer } from './root.reducer';
+import { store } from '.';
 
 export interface ErrorResponse {
   code: number;
   message: string;
 }
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;

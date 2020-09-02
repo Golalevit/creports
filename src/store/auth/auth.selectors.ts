@@ -1,9 +1,9 @@
-import { createSelector } from 'reselect';
-import { RootReducer } from '@/store/types';
+import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from '@store/types';
 
-export const getAuthState = (state: RootReducer) => state.auth;
+const authState = (state: RootState) => state.auth;
 
 export const getIsAuthenticatedData = createSelector(
-  getAuthState,
+  authState,
   ({ isAuthenticated, authIsLoading }) => ({ isAuthenticated, authIsLoading }),
 );

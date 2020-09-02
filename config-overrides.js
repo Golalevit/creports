@@ -26,13 +26,14 @@ module.exports = override(
   ),
   addDecoratorsLegacy(),
   addWebpackAlias({
-    '@': path.resolve(__dirname, './src'),
     '@components': path.resolve(__dirname, './src/components'),
     '@router': path.resolve(__dirname, './src/router'),
     '@pages': path.resolve(__dirname, './src/pages'),
     '@store': path.resolve(__dirname, './src/store'),
     '@utils': path.resolve(__dirname, './src/utils'),
     '@guards': path.resolve(__dirname, './src/guards'),
+    '@models': path.resolve(__dirname, './src/models'),
+    '@layout': path.resolve(__dirname, './src/layout'),
   }),
 
   overrideProcessEnv({
