@@ -37,7 +37,10 @@ export const Stats: FC<StatsProps> = ({ stats }) => {
               Insertions / Deletions
             </TableCell>
             <TableCell align="center" className="percent">
-              Percent
+              Percents
+            </TableCell>
+            <TableCell align="center" className="extensions">
+              Extensions
             </TableCell>
           </TableRow>
         </TableHead>
