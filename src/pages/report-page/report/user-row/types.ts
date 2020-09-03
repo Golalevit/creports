@@ -1,4 +1,4 @@
-import { User, ReportResponse } from '@store/report/types';
+import { User, ReportResponse } from '@store/report/report.types';
 
 export interface UserRowProps {
   user: User;

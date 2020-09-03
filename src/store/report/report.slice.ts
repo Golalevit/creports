@@ -1,4 +1,4 @@
-import { ReportState } from '@store/report/types';
+import { ReportState } from '@store/report/report.types';
 import { createSlice } from '@reduxjs/toolkit';
 import { getProjects, getReport } from '@store/report/report.actions';
 

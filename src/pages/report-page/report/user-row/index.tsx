@@ -5,7 +5,7 @@ import shortid from 'shortid';
 import { TableRow, TableCell } from '@material-ui/core';
 import { Button } from '@components/ui-kit/button';
 
-import { Task, ReportResponse } from '@store/report/types';
+import { Task, ReportResponse } from '@store/report/report.types';
 import { updateUserState } from '@utils/state-updater';
 
 import { TaskRow } from './task-row';

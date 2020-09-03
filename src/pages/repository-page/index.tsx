@@ -11,12 +11,12 @@ import { FiltersConfig } from '@pages/repository-page/types';
 import { Button } from '@components/ui-kit/button';
 import moment from 'moment';
 import {
-  getStatsWorker,
-  getRepositoriesWorker,
-  getUsersWorker,
+  getStats as getStatsAction,
+  getRepositories as getRepositoriesAction,
+  getUsers as getUsersAction,
 } from '@store/repositories/repositories.actions';
 import './repository-page.scss';
-import { RepositoriesResponse } from '@store/repositories/types';
+import { RepositoriesResponse } from '@store/repositories/repositories.types';
 import { Spinner } from '@components/spinner';
 import { Stats } from './stats';
 
@@ -45,7 +45,7 @@ export const RepositoryPage: FC = () => {
   useEffect(() => {
     if (filters.list.length) {
       dispatch(
-        getUsersWorker({
+        getUsersAction({
           repos: filters.list.map((repo: RepositoriesResponse) => repo.value),
         }),
       );
@@ -68,7 +68,7 @@ export const RepositoryPage: FC = () => {
     });
 
     dispatch(
-      getUsersWorker({
+      getUsersAction({
         repos: newVal.map((repo: RepositoriesResponse) => repo.value),
       }),
     );
@@ -91,7 +91,7 @@ export const RepositoryPage: FC = () => {
 
   const generateStats = () => {
     dispatch(
-      getStatsWorker({
+      getStatsAction({
         startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
         endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
         repos: filters.list.map((p: { label: string; value: number }) => p.value),
@@ -107,7 +107,7 @@ export const RepositoryPage: FC = () => {
           showDatePicker
           onChange={onChange}
           label="Repositories"
-          fetchOptions={getRepositoriesWorker}
+          fetchOptions={getRepositoriesAction}
           isLoading={repositoriesLoading}
           options={repositories}
           filters={filters}

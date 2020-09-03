@@ -7,7 +7,7 @@ import { AppDispatch } from '@store/types';
 import { Card } from '@material-ui/core';
 import { getReport } from '@store/report/report.selectors';
 import { getReport as getReportAction, sendEmail as sendEmailAction } from '@store/report/report.actions';
-import { ReportResponse } from '@store/report/types';
+import { ReportResponse } from '@store/report/report.types';
 
 import { Button } from '@components/ui-kit/button';
 import { Spinner } from '@components/spinner';

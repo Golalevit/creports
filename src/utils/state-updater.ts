@@ -1,4 +1,4 @@
-import { ReportResponse } from '@store/report/types';
+import { ReportResponse } from '@store/report/report.types';
 
 export const updateTaksState = (userIndex: number, taskIndex: number) => (
   prevState: ReportResponse,

@@ -6,7 +6,7 @@ import {
   Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, TableFooter,
 } from '@material-ui/core';
 
-import { User } from '@store/report/types';
+import { User } from '@store/report/report.types';
 
 import { UserRow } from './user-row';
 import { ReportProps } from './types';

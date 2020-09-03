@@ -1,4 +1,4 @@
-import { RepositoriesResponse } from '@store/repositories/types';
+import { RepositoriesResponse } from '@store/repositories/repositories.types';
 
 export interface FiltersConfig {
   startDate: Date | null;

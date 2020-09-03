@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import moment from 'moment';
 
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
-import { ReportResponse } from '@store/report/types';
+import { ReportResponse } from '@store/report/report.types';
 import { updateTaksState, updateUserState } from '@utils/state-updater';
 import { TaskRowProps } from './types';
 

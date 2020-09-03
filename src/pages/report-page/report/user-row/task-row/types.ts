@@ -1,4 +1,4 @@
-import { Task } from '@store/report/types';
+import { Task } from '@store/report/report.types';
 
 export interface TaskRowProps {
   task: Task;

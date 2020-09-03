@@ -1,26 +1,40 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { createDefaultFetchWorker } from '@utils/builder/default-actions';
-import { ErrorResponse } from '@store/types';
-import { RepositoriesResponse, StatsResponse } from '@store/repositories/types';
+import { RepositoriesResponse, StatsResponse } from '@store/repositories/repositories.types';
+import { createDefaultThunk } from '@utils/default-thunk';
+import axiosInstance from '@utils/axios';
+import { StatsInterface } from '@models/interfaces/stats';
 
-const actionCreator = actionCreatorFactory('REPOSITORY');
-
-export const getRepositories = actionCreator.async<object, RepositoriesResponse[], ErrorResponse>(
-  'GET_STATS',
+export const getRepositories = createDefaultThunk<RepositoriesResponse[]>(
+  'repositories/get-repositories',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get('/repository');
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
 );
 
-export const getStats = actionCreator.async<object, StatsResponse[], ErrorResponse>(
-  'GET_REPOSITORIES',
+export const getUsers = createDefaultThunk<string[], { repos: number[] }>(
+  'repositories/get-users',
+  async (repos, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post<string[]>('/repository/users', repos);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
 );
 
-export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
-
-export const getRepositoriesWorker = createDefaultFetchWorker(
-  getRepositories,
-  '/repository',
-  'get',
+export const getStats = createDefaultThunk<StatsResponse[], StatsInterface>(
+  'repositories/get-stats',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post<StatsResponse[]>('/repository/stats', payload);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
 );
-
-export const getStatsWorker = createDefaultFetchWorker(getStats, '/repository/stats', 'post');
-
-export const getUsersWorker = createDefaultFetchWorker(getUsers, '/repository/users', 'post');
