@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@store/types';
-import { create } from 'domain';
 
 export const getRepositoriesState = (state: RootState) => state.repositories;
 
@@ -21,3 +20,4 @@ export const getStats = createSelector(getRepositoriesState, ({ stats, statsLoad
   statsLoading,
 }));
 
+export const getRepoId = createSelector(getRepositoriesState, (state) => state.repositoryId);

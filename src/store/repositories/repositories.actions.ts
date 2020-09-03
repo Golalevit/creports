@@ -15,6 +15,21 @@ export const getRepositories = createDefaultThunk<RepositoriesResponse[]>(
   },
 );
 
+export const getProjectUsers = createDefaultThunk<{ id: number; users: string[] }, { url: string }>(
+  'repositories/get-project-users',
+  async (url, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post<{ id: number; users: string[] }>(
+        '/repository/project-users',
+        url,
+      );
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
+
 export const getUsers = createDefaultThunk<string[], { repos: number[] }>(
   'repositories/get-users',
   async (repos, { rejectWithValue }) => {

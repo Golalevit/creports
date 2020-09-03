@@ -5,6 +5,7 @@ import {
   getUsersData,
   getUsers,
   getStats,
+  getRepoId,
 } from '@store/repositories/repositories.selectors';
 import { FilterBar } from '@pages/repository-page/filter-bar';
 import { FiltersConfig } from '@pages/repository-page/types';
@@ -18,12 +19,15 @@ import {
 import './repository-page.scss';
 import { RepositoriesResponse } from '@store/repositories/repositories.types';
 import { Spinner } from '@components/spinner';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { resetUsers } from '@store/repositories/repositories.slice';
 import { Stats } from './stats';
 
 export const RepositoryPage: FC = () => {
   const dispatch = useDispatch();
   const { repositoriesLoading, repositories } = useSelector(getRepositoriesData);
   const { users, usersLoading } = useSelector(getUsersData);
+  const repoId = useSelector(getRepoId);
 
   const userNames = useSelector(getUsers);
   const { stats, statsLoading } = useSelector(getStats);
@@ -35,6 +39,8 @@ export const RepositoryPage: FC = () => {
     endDate: new Date(getLocalStorage('endDate', new Date())),
     list: getLocalStorage('repositories', []),
   });
+
+  const [checked, setChecked] = useState<boolean>(false);
 
   const [userFilters, setUserFilters] = useState<FiltersConfig>({
     startDate: new Date(getLocalStorage('startDate', new Date())),
@@ -94,7 +100,9 @@ export const RepositoryPage: FC = () => {
       getStatsAction({
         startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
         endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
-        repos: filters.list.map((p: { label: string; value: number }) => p.value),
+        repos: checked
+          ? [repoId!]
+          : filters.list.map((p: { label: string; value: number }) => p.value),
         users: userFilters.list.length ? userFilters.list.map((user) => user.label) : userNames,
       }),
     );
@@ -112,14 +120,38 @@ export const RepositoryPage: FC = () => {
           options={repositories}
           filters={filters}
           setFilters={_setFilters}
+          checked={checked}
+        />
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={checked}
+              onChange={() => {
+                if (!checked) {
+                  dispatch(resetUsers());
+                }
+                if (checked) {
+                  dispatch(
+                    getUsersAction({
+                      repos: filters.list.map((repo: RepositoriesResponse) => repo.value),
+                    }),
+                  );
+                }
+                setChecked(!checked);
+              }}
+              name="checkedB"
+              color="primary"
+            />
+          )}
+          label="Gitlab Project URL"
         />
         <Button
           label="GENERATE"
           onClick={generateStats}
-          disabled={repositoriesLoading || !filters.list.length}
+          disabled={repositoriesLoading || (!filters.list.length && !users.length)}
         />
       </div>
-      {filters.list.length ? (
+      {filters.list.length || users.length ? (
         <FilterBar
           onChange={onUserChange}
           showDatePicker={false}

@@ -1,8 +1,14 @@
 import { RepositoriesState } from '@store/repositories/repositories.types';
 import { createSlice } from '@reduxjs/toolkit';
-import { getRepositories, getStats, getUsers } from '@store/repositories/repositories.actions';
+import {
+  getRepositories,
+  getStats,
+  getUsers,
+  getProjectUsers,
+} from '@store/repositories/repositories.actions';
 
 const initialState: RepositoriesState = {
+  repositoryId: null,
   repositories: [],
   repositoriesLoading: false,
   users: [],
@@ -14,7 +20,11 @@ const initialState: RepositoriesState = {
 const repositoriesSlice = createSlice({
   name: 'repositories',
   initialState,
-  reducers: {},
+  reducers: {
+    resetUsers(state) {
+      state.users = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getRepositories.pending, (state) => {
       state.repositoriesLoading = true;
@@ -22,6 +32,14 @@ const repositoriesSlice = createSlice({
     builder.addCase(getRepositories.fulfilled, (state, res) => {
       state.repositoriesLoading = false;
       state.repositories = res.payload;
+    });
+
+    builder.addCase(getProjectUsers.fulfilled, (state, res) => {
+      state.users = res.payload.users;
+      state.repositoryId = res.payload.id;
+    });
+    builder.addCase(getProjectUsers.rejected, (state) => {
+      state.users = [];
     });
 
     builder.addCase(getUsers.pending, (state) => {
@@ -43,3 +61,4 @@ const repositoriesSlice = createSlice({
 });
 
 export const repositoriesReducer = repositoriesSlice.reducer;
+export const { resetUsers } = repositoriesSlice.actions;
