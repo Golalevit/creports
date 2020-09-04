@@ -1,6 +1,14 @@
-import { defaultReducerActionCreator } from '@utils/builder/default-reducer';
+import {
+  clearStateReducerActionCreator,
+  defaultReducerActionCreator,
+} from '@utils/builder/default-reducer';
 import { Action } from '@utils/builder/types';
-import { getRepositories, getUsers, getStats } from '@store/repositories/repositories.actions';
+import {
+  getRepositories,
+  getUsers,
+  getStats,
+  getProjectUsers, resetUsers,
+} from '@store/repositories/repositories.actions';
 import { RepositoriesState } from './types';
 
 const initialState: RepositoriesState = {
@@ -10,6 +18,7 @@ const initialState: RepositoriesState = {
   usersLoading: false,
   stats: [],
   statsLoading: false,
+  repositoryId: null,
 };
 
 export const repositoriesReducer = (state = initialState, action: Action): RepositoriesState => {
@@ -29,6 +38,11 @@ export const repositoriesReducer = (state = initialState, action: Action): Repos
       dataMask: 'stats',
       errorMask: 'repositoriesError',
       loadingMask: 'statsLoading',
+    }),
+    ...clearStateReducerActionCreator(resetUsers, state, action),
+    ...defaultReducerActionCreator(getProjectUsers, state, action, {
+      errorMask: 'repositoriesError',
+      loadingMask: 'usersLoading',
     }),
   };
   return states[type] || state;

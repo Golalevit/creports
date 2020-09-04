@@ -9,4 +9,5 @@ export interface FilterBarProps {
   isLoading: boolean;
   fetchOptions?: () => void;
   onChange: (_: any, newVal: any) => void;
+  checked?: boolean;
 }

@@ -28,10 +28,13 @@ module.exports = {
       '@typescript-eslint/no-empty-function': 0,
       '@typescript-eslint/explicit-function-return-type': 0,
       'react/prop-types': 0,
+      'react/jsx-one-expression-per-line': 0,
       'import/no-unresolved': 0,
       'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
       'import/no-cycle': 0,
       'global-require': 0,
+      'no-param-reassign': 0,
+      'no-empty': 0,
       'import/prefer-default-export': 0,
       'import/extensions': [
           'error',

@@ -4,6 +4,7 @@ export interface RepositoriesResponse {
 }
 
 export interface RepositoriesState {
+  repositoryId: number | null;
   repositories: RepositoriesResponse[];
   repositoriesLoading: boolean;
   users: string[];
@@ -18,6 +19,11 @@ export interface StatsResponse {
   insertions: number;
   deletions: number;
   percent: number;
-  graphPercent: number;
-  graphLine: string;
+  byExt: Extension[];
+}
+
+export interface Extension {
+  changed: number;
+  percent: number;
+  name: string;
 }
