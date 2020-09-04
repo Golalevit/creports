@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { STATUS_CODES } from '@/enums';
-import { PAGES } from '@/router/pages';
+import { PAGES } from '@router/pages';
 import history from '@router/history';
+import { STATUS_CODES } from '@models/enums';
 
 const axiosInstance = axios.create({
   baseURL: process.env.API_URL,

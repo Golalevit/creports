@@ -14,10 +14,10 @@ import {
   getStatsWorker,
   getRepositoriesWorker,
   getUsersWorker,
-} from '@/store/repositories/repositories.actions';
+} from '@store/repositories/repositories.actions';
 import './repository-page.scss';
-import { RepositoriesResponse } from '@/store/repositories/types';
-import { Spinner } from '@/components/spinner';
+import { RepositoriesResponse } from '@store/repositories/types';
+import { Spinner } from '@components/spinner';
 import { Stats } from './stats';
 
 export const RepositoryPage: FC = () => {

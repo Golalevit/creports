@@ -2,9 +2,9 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getIsAuthenticatedData } from '@store/auth/auth.selectors';
-import { userAuthenticatedWorker } from '@/store/auth/auth.actions';
+import { userAuthenticatedWorker } from '@store/auth/auth.actions';
 import { Loader } from '@components/loader';
-import { BrowserRouter } from '@/router';
+import { BrowserRouter } from '@router/index';
 
 export const App: FC = () => {
   const dispacth = useDispatch();

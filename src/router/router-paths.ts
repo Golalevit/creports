@@ -4,7 +4,7 @@ import { ReportPage } from '@pages/report-page';
 import { LoginPage } from '@pages/login';
 import { RepositoryPage } from '@pages/repository-page';
 
-import { LoginGuard } from '@/guards/login.guard';
+import { LoginGuard } from '@guards/login.guard';
 
 import { PAGES } from './pages';
 

@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router, Switch, Redirect, Route,
 } from 'react-router-dom';
 
-import { Layout } from '@/layout';
+import { Layout } from '@layout/index';
 import { LoginPage } from '@pages/login';
 import { ExtendedRouter } from '@wellyes/react-router-extended';
 import { PAGES, prefix } from './pages';
