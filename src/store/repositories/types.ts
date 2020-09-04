@@ -4,6 +4,7 @@ export interface RepositoriesResponse {
 }
 
 export interface RepositoriesState {
+  repositoryId: number | null;
   repositories: RepositoriesResponse[];
   repositoriesLoading: boolean;
   users: string[];

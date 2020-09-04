@@ -20,3 +20,4 @@ export const getStats = createSelector(getRepositoriesState, ({ stats, statsLoad
   statsLoading,
 }));
 
+export const getRepoId = createSelector(getRepositoriesState, (state) => state.repositoryId);

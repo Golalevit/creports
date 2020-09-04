@@ -24,6 +24,7 @@
     "axios": "^0.19.2",
     "customize-cra": "^1.0.0",
     "date-fns": "^2.15.0",
+    "formik": "^2.1.5",
     "history": "^5.0.0",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
@@ -47,7 +48,8 @@
     "shortid": "^2.2.15",
     "typescript": "~3.7.2",
     "typescript-fsa": "^3.0.0",
-    "yarn": "^1.22.4"
+    "yarn": "^1.22.4",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "eslint": "6.8.0",

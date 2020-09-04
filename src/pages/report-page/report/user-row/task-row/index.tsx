@@ -30,8 +30,7 @@ export const TaskRow: FC<TaskRowProps> = ({
         />
       </TableCell>
       <TableCell align="left">
-        {
-        task.showEditor ? (
+        {task.showEditor ? (
           <ReactQuill
             className="comment"
             value={task.comment}
@@ -50,13 +49,10 @@ export const TaskRow: FC<TaskRowProps> = ({
             className="comment comment-cell"
             aria-hidden="true"
           />
-        )
-      }
+        )}
       </TableCell>
       <TableCell align="center">
-        <div>
-          {moment(task.date).format('YYYY-MM-DD')}
-        </div>
+        <div>{moment(task.date).format('YYYY-MM-DD')}</div>
       </TableCell>
       <TableCell align="center">
         <div className="timespent">
@@ -68,13 +64,16 @@ export const TaskRow: FC<TaskRowProps> = ({
             onSave={(value: string) => {
               updateReport((prevState: ReportResponse) => {
                 const newTaskState = taskUpdater(prevState, 'timeSpent', value);
-                const userTotalHours = newTaskState.users[userIndex]
-                  .tasks
-                  .reduce((a, b) => Number(a) + Number(b.timeSpent), 0);
+                const userTotalHours = newTaskState.users[userIndex].tasks.reduce(
+                  (a, b) => Number(a) + Number(b.timeSpent),
+                  0,
+                );
                 const newUserState = userUpdater(newTaskState, 'timeSpent', userTotalHours);
 
-                const totalReportHours = newUserState.users
-                  .reduce((a, b) => Number(a) + Number(b.timeSpent), 0);
+                const totalReportHours = newUserState.users.reduce(
+                  (a, b) => Number(a) + Number(b.timeSpent),
+                  0,
+                );
 
                 return { ...newUserState, total: `${totalReportHours}` };
               });
@@ -84,11 +83,7 @@ export const TaskRow: FC<TaskRowProps> = ({
             color="primary"
             checked={!task.excluded}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              updateReport((prevState: ReportResponse) => taskUpdater(
-                prevState,
-                'excluded',
-                !e.target.checked,
-              ));
+              updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'excluded', !e.target.checked));
             }}
           />
         </div>
