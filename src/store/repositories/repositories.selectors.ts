@@ -19,3 +19,4 @@ export const getStats = createSelector(getRepositoriesState, ({ stats, statsLoad
   stats,
   statsLoading,
 }));
+
