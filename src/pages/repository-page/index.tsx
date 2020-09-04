@@ -14,13 +14,12 @@ import moment from 'moment';
 import {
   getStatsWorker,
   getRepositoriesWorker,
-  getUsersWorker,
+  getUsersWorker, resetUsers, resetUsersWorker,
 } from '@store/repositories/repositories.actions';
 import './repository-page.scss';
 import { RepositoriesResponse } from '@store/repositories/types';
 import { Spinner } from '@components/spinner';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import { resetUsers } from '@store/repositories/repositories.slice';
 import { Stats } from './stats';
 
 export const RepositoryPage: FC = () => {
@@ -128,11 +127,11 @@ export const RepositoryPage: FC = () => {
               checked={checked}
               onChange={() => {
                 if (!checked) {
-                  dispatch(resetUsers());
+                  dispatch(resetUsersWorker('users', []));
                 }
                 if (checked) {
                   dispatch(
-                    getUsersAction({
+                    getUsersWorker({
                       repos: filters.list.map((repo: RepositoriesResponse) => repo.value),
                     }),
                   );
@@ -151,7 +150,7 @@ export const RepositoryPage: FC = () => {
           disabled={repositoriesLoading || (!filters.list.length && !users.length)}
         />
       </div>
-      {filters.list.length || users.length ? (
+      {users.length ? (
         <FilterBar
           onChange={onUserChange}
           showDatePicker={false}

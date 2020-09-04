@@ -7,9 +7,11 @@ import { RangeDatePicker } from '@components/ui-kit/range-datepicker';
 import { TextField } from '@material-ui/core';
 
 import './filter-bar.scss';
-import { AppDispatch } from '@store/types';
 import { useDispatch } from 'react-redux';
-import { getProjectUsers } from '@store/repositories/repositories.actions';
+import {
+  getProjectUsersWorker,
+  resetUsersWorker,
+} from '@store/repositories/repositories.actions';
 import { FilterBarProps } from './types';
 
 export const FilterBar: FC<FilterBarProps> = ({
@@ -26,7 +28,7 @@ export const FilterBar: FC<FilterBarProps> = ({
   const validationSchema = yup.object().shape({
     url: yup.string().url().required(),
   });
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   return (
     <div className="filters">
@@ -44,7 +46,7 @@ export const FilterBar: FC<FilterBarProps> = ({
                   value={props.values.url}
                   error={!!props.errors.url}
                   onChange={(e) => {
-                    dispatch(getProjectUsers({ url: e.target.value }));
+                    dispatch(getProjectUsersWorker({ url: e.target.value }, { cOnFail: () => dispatch(resetUsersWorker('users', [])) }));
                     props.handleChange('url')(e.target.value);
                   }}
                   fullWidth
