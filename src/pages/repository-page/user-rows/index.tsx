@@ -16,7 +16,11 @@ export const UserRow: FC<UserRowProps> = ({ stats }) => (
         <p>{`+${stats.insertions} / -${stats.deletions}`}</p>
       </TableCell>
       <TableCell align="center" colSpan={1}>
-        <p>{(stats.percent * 100).toFixed(1)}%</p>
+        <p>
+          {stats.percentInsertions}%
+           / {stats.percentDeletions}%
+           / {(stats.percent * 100).toFixed(1)}%
+        </p>
       </TableCell>
       <TableCell align="center" colSpan={1}>
         {stats.byExt.map((ext) => <p>{ext.name} - {(ext.percent * 100).toFixed(1)}%</p>)}

@@ -14,12 +14,24 @@ import './stats.scss';
 import { StatsProps } from './types';
 
 export const Stats: FC<StatsProps> = ({ stats }) => {
+  const allInsertions = stats.reduce((prev, curr) => prev + curr.insertions, 0);
+  const allDeletions = stats.reduce((prev, curr) => prev + curr.deletions, 0);
+  
   const memorizedUsers = useMemo(
-    () => stats?.map((userStats) => (
-      <Fragment key={shortid.generate()}>
-        <UserRow stats={userStats} />
-      </Fragment>
-    )),
+    () => stats?.map((userStats) => {
+      const percentInsertions = (userStats.insertions / (allInsertions / 100)).toFixed(2);
+      const percentDeletions = (userStats.deletions / (allDeletions / 100)).toFixed(2);
+      userStats = {
+        ...userStats,
+        percentInsertions,
+        percentDeletions,
+      };
+      return (
+        <Fragment key={shortid.generate()}>
+          <UserRow stats={userStats} />
+        </Fragment>
+      );
+    }),
     [stats],
   );
   return (
@@ -37,7 +49,7 @@ export const Stats: FC<StatsProps> = ({ stats }) => {
               Insertions / Deletions
             </TableCell>
             <TableCell align="center" className="percent">
-              Percents
+              Percents(Insertions / Deletions / Overall)
             </TableCell>
             <TableCell align="center" className="extensions">
               Extensions
