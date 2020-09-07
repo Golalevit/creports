@@ -52,7 +52,7 @@ export const Layout: FC = () => {
               history.push(PAGES.REPORT_PAGE);
             }}
           >
-            <ListItemText primary="Reports" />
+            <ListItemText primary="Client Reports" />
           </ListItem>
           <ListItem
             button
