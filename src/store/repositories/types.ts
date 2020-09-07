@@ -20,6 +20,8 @@ export interface StatsResponse {
   deletions: number;
   percent: number;
   byExt: Extension[];
+  percentDeletions?: string;
+  percentInsertions?: string;
 }
 
 export interface Extension {
