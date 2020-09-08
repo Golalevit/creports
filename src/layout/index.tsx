@@ -75,9 +75,10 @@ export const Layout: FC = () => {
                 <ListItemText primary="Stats" />
               </ListItem>
               <ListItem
-                selected={selectedTab === '/users'}
+                selected={selectedTab === `${prefix}/users`}
                 onClick={() => {
-                  setSelectedTab('/users');
+                  setSelectedTab(`${prefix}/users`);
+                  history.push(PAGES.USERS_PAGE);
                 }}
                 button
                 classes={classesListItem}
@@ -99,14 +100,14 @@ export const Layout: FC = () => {
         </List>
       </Drawer>
       <Switch>
-        {routes.map((route) => (
-          <ExtendedRouter
-            key={route.path}
-            path={route.path}
-            component={route.component}
-            {...route}
-          />
-        ))}
+          {routes.map((route) => (
+              <ExtendedRouter
+                key={route.path}
+                path={route.path}
+                component={route.component}
+                {...route}
+              />
+          ))}
       </Switch>
     </>
   );

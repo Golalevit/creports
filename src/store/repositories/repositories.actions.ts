@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { clearStateActionWorker, createDefaultFetchWorker } from '@utils/builder/default-actions';
+import { createDefaultFetchWorker } from '@utils/builder/default-actions';
 import { ErrorResponse } from '@store/types';
 import { RepositoriesResponse, StatsResponse } from '@store/repositories/types';
 

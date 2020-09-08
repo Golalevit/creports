@@ -101,7 +101,7 @@ export const RepositoryPage: FC = () => {
   };
 
   return (
-    <div className="repositories__controls">
+    <div className="repositories__controls container">
       <div className="repositories__controls__filters">
         <FilterBar
           showDatePicker
