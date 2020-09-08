@@ -16,7 +16,7 @@ import { StatsProps } from './types';
 export const Stats: FC<StatsProps> = ({ stats }) => {
   const allInsertions = stats.reduce((prev, curr) => prev + curr.insertions, 0);
   const allDeletions = stats.reduce((prev, curr) => prev + curr.deletions, 0);
-  
+
   const memorizedUsers = useMemo(
     () => stats?.map((userStats) => {
       const percentInsertions = (userStats.insertions / (allInsertions / 100)).toFixed(2);
