@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { createDefaultFetchWorker } from '@utils/builder/default-actions';
+import { clearStateActionWorker, createDefaultFetchWorker } from '@utils/builder/default-actions';
 import { ErrorResponse } from '@store/types';
 import { RepositoriesResponse, StatsResponse } from '@store/repositories/types';
 
@@ -16,6 +16,8 @@ export const getStats = actionCreator.async<object, StatsResponse[], ErrorRespon
 export const resetUsers = actionCreator(
   'RESET_USERS',
 );
+
+export const resetUsersWorker = clearStateActionWorker(resetUsers);
 
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
 
