@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
-import { FilterBar } from '@pages/repository-page/filter-bar';
-import { FiltersConfig } from '@pages/repository-page/types';
+import { FilterBar } from '@pages/stats-page/filter-bar';
+import { FiltersConfig } from '@pages/stats-page/types';
 import {
   getRepositoriesWorker,
   getUsersWorker,

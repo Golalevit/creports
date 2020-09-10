@@ -6,8 +6,8 @@ import {
   getUsers,
   getStats,
 } from '@store/repositories/repositories.selectors';
-import { FilterBar } from '@pages/repository-page/filter-bar';
-import { FiltersConfig } from '@pages/repository-page/types';
+import { FilterBar } from '@pages/stats-page/filter-bar';
+import { FiltersConfig } from '@pages/stats-page/types';
 import { Button } from '@components/ui-kit/button';
 import moment from 'moment';
 import {
@@ -20,7 +20,7 @@ import { RepositoriesResponse } from '@store/repositories/types';
 import { Spinner } from '@components/spinner';
 import { Stats } from './stats';
 
-export const RepositoryPage: FC = () => {
+export const StatsPage: FC = () => {
   const dispatch = useDispatch();
   const { repositoriesLoading, repositories } = useSelector(getRepositoriesData);
   const { users, usersLoading } = useSelector(getUsersData);

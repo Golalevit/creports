@@ -2,7 +2,7 @@
 
 import { ReportPage } from '@pages/report-page';
 import { LoginPage } from '@pages/login';
-import { RepositoryPage } from '@pages/repository-page';
+import { StatsPage } from '@pages/stats-page';
 import { UsersPage } from '@pages/users-page';
 
 import { LoginGuard } from '@guards/login.guard';
@@ -23,7 +23,7 @@ export const routes = [
   {
     path: PAGES.REPOSITORIES_PAGE,
     guards: [new LoginGuard()],
-    component: RepositoryPage,
+    component: StatsPage,
     exact: true,
   },
   {
