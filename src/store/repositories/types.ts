@@ -7,6 +7,8 @@ export interface RepositoriesState {
   repositoryId: number | null;
   repositories: RepositoriesResponse[];
   repositoriesLoading: boolean;
+  aliasRepositories: RepositoriesResponse[];
+  aliasRepositoriesLoading: boolean;
   users: string[];
   usersLoading: boolean;
   stats: StatsResponse[];

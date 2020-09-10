@@ -23,7 +23,9 @@ export const Users: FC<UsersProps> = ({ handleModal, setAliasId }) => {
   const { users } = useSelector(getUsersData);
 
   useEffect(() => {
-    dispatch(getUsersWorker());
+    if (!users.length) {
+      dispatch(getUsersWorker());
+    }
   }, []);
 
   const onDelete = (id: string) => {
@@ -38,7 +40,7 @@ export const Users: FC<UsersProps> = ({ handleModal, setAliasId }) => {
   const memoizedUsers = useMemo(
     () => users?.map((user) => (
       <Fragment key={shortid.generate()}>
-        <UserRow onEdit={onEdit} onDelete={onDelete} user={user} />
+        <UserRow key={shortid.generate()} onEdit={onEdit} onDelete={onDelete} user={user} />
       </Fragment>
     )),
     [users],

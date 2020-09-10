@@ -9,6 +9,10 @@ export const getRepositories = actionCreator.async<object, RepositoriesResponse[
   'GET_REPOSITORIES',
 );
 
+export const getAliasRepositories = actionCreator.async<object, RepositoriesResponse[], ErrorResponse>(
+  'GET_ALIAS_REPOSITORIES',
+);
+
 export const getStats = actionCreator.async<object, StatsResponse[], ErrorResponse>(
   'GET_STATS',
 );
@@ -24,6 +28,12 @@ export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GE
 export const getRepositoriesWorker = createDefaultFetchWorker(
   getRepositories,
   '/repository',
+  'get',
+);
+
+export const getAliasRepositoriesWorker = createDefaultFetchWorker(
+  getRepositories,
+  '/repository?alias=true',
   'get',
 );
 

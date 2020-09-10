@@ -6,13 +6,15 @@ import { Action } from '@utils/builder/types';
 import {
   getRepositories,
   getUsers,
-  getStats, resetUsers,
+  getStats, resetUsers, getAliasRepositories,
 } from '@store/repositories/repositories.actions';
 import { RepositoriesState } from './types';
 
 const initialState: RepositoriesState = {
   repositories: [],
   repositoriesLoading: false,
+  aliasRepositories: [],
+  aliasRepositoriesLoading: false,
   users: [],
   usersLoading: false,
   stats: [],
@@ -27,6 +29,11 @@ export const repositoriesReducer = (state = initialState, action: Action): Repos
       dataMask: 'repositories',
       errorMask: 'repositoriesError',
       loadingMask: 'repositoriesLoading',
+    }),
+    ...defaultReducerActionCreator(getAliasRepositories, state, action, {
+      dataMask: 'aliasRepositories',
+      errorMask: 'repositoriesError',
+      loadingMask: 'aliasRepositoriesLoading',
     }),
     ...defaultReducerActionCreator(getUsers, state, action, {
       dataMask: 'users',

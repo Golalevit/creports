@@ -4,25 +4,23 @@ import { TableRow, TableCell, Button } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 import { UserRowProps } from '@pages/users-page/user-rows/types';
 
-import './user-rows.scss';
+// import './user-rows.scss';
 
-export const UserRow: FC<UserRowProps> = ({ user, onDelete, onEdit }) => (
+export const ProjectRow: FC = () => (
   <>
     <TableRow className="info top-border">
       <TableCell align="center" colSpan={1}>
-        <p>{user.alias}</p>
+        <p>poka</p>
       </TableCell>
       <TableCell align="center" colSpan={1}>
-        {user.users.map((u) => (
-          <p key={u}>{u}</p>
-        ))}
+        <p>privet</p>
       </TableCell>
       <TableCell>
         <div className="icons">
-          <Button onClick={() => onDelete(user.id)} type="button">
+          <Button onClick={() => {}} type="button">
             <Delete />
           </Button>
-          <Button onClick={() => onEdit(user.id)} type="button">
+          <Button onClick={() => {}} type="button">
             <Edit />
           </Button>
         </div>

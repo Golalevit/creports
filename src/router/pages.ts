@@ -5,4 +5,5 @@ export const PAGES = {
   REPORT_PAGE: `${prefix}/report`,
   REPOSITORIES_PAGE: `${prefix}/repositories`,
   USERS_PAGE: `${prefix}/users`,
+  PROJECTS_PAGE: `${prefix}/projects`,
 };

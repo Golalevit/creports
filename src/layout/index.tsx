@@ -86,9 +86,10 @@ export const Layout: FC = () => {
                 <ListItemText primary="Users" />
               </ListItem>
               <ListItem
-                selected={selectedTab === '/projects'}
+                selected={selectedTab === `${prefix}/projects`}
                 onClick={() => {
-                  setSelectedTab('/projects');
+                  setSelectedTab(`${prefix}/projects`);
+                  history.push(PAGES.PROJECTS_PAGE);
                 }}
                 button
                 classes={classesListItem}
