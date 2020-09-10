@@ -14,12 +14,24 @@ import './modal.scss';
 import { makeStyles } from '@material-ui/core/styles';
 import { Input } from '@components/ui-kit/input';
 import { Button } from '@components/ui-kit/button';
-import { createUserAliasWorker, getUsersWorker as getUserAliasWorker } from '@store/users/users.actions';
+import {
+  createUserAliasWorker,
+  getUsersWorker as getUserAliasWorker,
+  updateAliasWorker,
+} from '@store/users/users.actions';
 import { AddAliasModalProps } from '@pages/users-page/modal/types';
+import { getAliasUsers } from '@store/users/users.selectors';
 
-export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
+export const AddAliasModal: FC<AddAliasModalProps> = ({
+  open,
+  handleModal,
+  aliasId,
+  resetAliasId,
+}) => {
   const dispatch = useDispatch();
   const { users, usersLoading } = useSelector(getUsersData);
+  const aliasResult = useSelector(getAliasUsers(aliasId));
+  const aliasOptions = aliasResult?.users.map((user, index) => ({ label: user, value: index }));
   const { repositories, repositoriesLoading } = useSelector(getRepositoriesData);
 
   const useStylesModal = makeStyles({
@@ -43,6 +55,8 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
     list: [],
   });
 
+  const [alias, setAlias] = useState<string>('');
+
   const resetStates = () => {
     setUserFilters({
       startDate: null,
@@ -55,8 +69,6 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
       list: [],
     });
   };
-
-  const [alias, setAlias] = useState<string>('');
 
   useEffect(() => {
     if (filters.list.length) {
@@ -87,11 +99,25 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
   };
 
   useEffect(() => {
-    setUserFilters({
-      ...userFilters,
-      list: userFilters.list.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
-    });
+    if (!aliasOptions) {
+      setUserFilters({
+        ...userFilters,
+        list: userFilters.list.filter((filteredUser) =>
+          users.some((user) => filteredUser.label === user.label),
+        ),
+      });
+    }
   }, [users]);
+
+  useEffect(() => {
+    if (aliasOptions) {
+      setAlias(aliasResult!.alias);
+      setUserFilters({
+        ...userFilters,
+        list: aliasOptions,
+      });
+    }
+  }, [aliasId]);
 
   const onUserChange = (_, newVal: any) => {
     setUserFilters({
@@ -103,9 +129,15 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
 
   return (
     <Dialog
+      onClose={() => {
+        setAlias('');
+        resetStates();
+        dispatch(resetUsersWorker('users', []));
+        resetAliasId();
+        handleModal(false);
+      }}
       classes={classesModal}
       fullWidth
-      onClose={onClose}
       open={open}
     >
       <div>
@@ -119,13 +151,13 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
           filters={filters}
           setFilters={setFilters}
         />
-        {users.length ? (
+        {users.length || aliasResult?.users.length ? (
           <FilterBar
             onChange={onUserChange}
             showDatePicker={false}
             label="Users"
             isLoading={usersLoading}
-            options={users}
+            options={users || aliasOptions}
             filters={userFilters}
             setFilters={setUserFilters}
           />
@@ -137,20 +169,43 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({ open, onClose }) => {
       <div className="button">
         <Button
           disabled={!alias.length}
-          onClick={async () => {
-            await dispatch(
-              createUserAliasWorker({ alias, users: userFilters.list.map((user) => user.label) },
-                {
-                  cOnSuccess: () => {
-                    onClose();
-                    resetStates();
-                    dispatch(resetUsersWorker('users', []));
+          onClick={() => {
+            if (aliasId) {
+              dispatch(
+                updateAliasWorker(aliasId)(
+                  {
+                    alias,
+                    users: userFilters.list.map((user) => user.label),
                   },
-                }),
-            );
-            dispatch(getUserAliasWorker());
+                  {
+                    cOnSuccess: () => {
+                      handleModal(false);
+                      setAlias('');
+                      resetStates();
+                      dispatch(resetUsersWorker('users', []));
+                      resetAliasId();
+                      dispatch(getUserAliasWorker());
+                    },
+                  },
+                ),
+              );
+            } else {
+              dispatch(
+                createUserAliasWorker(
+                  { alias, users: userFilters.list.map((user) => user.label) },
+                  {
+                    cOnSuccess: () => {
+                      handleModal(false);
+                      resetStates();
+                      dispatch(resetUsersWorker('users', []));
+                      dispatch(getUserAliasWorker());
+                    },
+                  },
+                ),
+              );
+            }
           }}
-          label="CREATE ALIAS"
+          label={aliasId === '' ? 'CREATE ALIAS' : 'UPDATE ALIAS'}
         />
       </div>
     </Dialog>

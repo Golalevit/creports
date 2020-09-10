@@ -1,4 +1,6 @@
 export interface AddAliasModalProps {
   open: boolean;
-  onClose: () => void;
+  handleModal: (open: boolean) => void;
+  aliasId: string;
+  resetAliasId: () => void;
 }

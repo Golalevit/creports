@@ -1,3 +1,4 @@
 export interface UsersProps {
-  users: any[];
+  handleModal: () => void;
+  setAliasId: (id: string) => void;
 }

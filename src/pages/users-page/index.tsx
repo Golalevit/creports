@@ -5,19 +5,30 @@ import { AddAliasModal } from '@pages/users-page/modal';
 
 export const UsersPage: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [aliasId, setAliasId] = useState<string>('');
+
+  const onClickSetAliasId = (id: string) => {
+    setAliasId(id);
+  };
 
   const handleModal = () => {
     setOpen(!open);
   };
 
+  const resetAliasId = () => {
+    setAliasId('');
+  };
+
   return (
     <div className="container">
-      <Button
-        onClick={handleModal}
-        label="ADD ALIAS"
+      <Button onClick={handleModal} label="ADD ALIAS" />
+      <AddAliasModal
+        resetAliasId={resetAliasId}
+        handleModal={setOpen}
+        open={open}
+        aliasId={aliasId}
       />
-      <AddAliasModal onClose={handleModal} open={open} />
-      <Users />
+      <Users setAliasId={onClickSetAliasId} handleModal={handleModal} />
     </div>
   );
 };
