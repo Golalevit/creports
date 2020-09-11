@@ -70,16 +70,6 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
     });
   };
 
-  // useEffect(() => {
-  //   if (filters.list.length) {
-  //     dispatch(
-  //       getUsersWorker({
-  //         repos: filters.list.map((repo: RepositoriesResponse) => repo.value),
-  //       }),
-  //     );
-  //   }
-  // }, []);
-
   const _setFilters = (data: FiltersConfig) => {
     setFilters(data);
   };

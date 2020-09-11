@@ -2,25 +2,23 @@ import React, { FC } from 'react';
 
 import { TableRow, TableCell, Button } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { UserRowProps } from '@pages/users-page/user-rows/types';
+import { ProjectRowProps } from '@pages/projects-page/project-row/types';
 
-// import './user-rows.scss';
-
-export const ProjectRow: FC = () => (
+export const ProjectRow: FC<ProjectRowProps> = ({ project, onEdit, onDelete }) => (
   <>
     <TableRow className="info top-border">
       <TableCell align="center" colSpan={1}>
-        <p>poka</p>
+        <p>{project.alias}</p>
       </TableCell>
       <TableCell align="center" colSpan={1}>
-        <p>privet</p>
+        <p>{project.label}</p>
       </TableCell>
       <TableCell>
         <div className="icons">
-          <Button onClick={() => {}} type="button">
+          <Button onClick={() => onDelete(project.value)} type="button">
             <Delete />
           </Button>
-          <Button onClick={() => {}} type="button">
+          <Button onClick={() => onEdit(project.value)} type="button">
             <Edit />
           </Button>
         </div>

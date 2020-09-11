@@ -50,7 +50,7 @@ export const StatsPage: FC = () => {
         }),
       );
     }
-  }, []);
+  }, [filters.list]);
 
   const _setFilters = (data: FiltersConfig) => {
     localStorage.setItem('repositories', JSON.stringify(data.list));

@@ -2,6 +2,7 @@ import actionCreatorFactory from 'typescript-fsa';
 import { clearStateActionWorker, createDefaultFetchWorker } from '@utils/builder/default-actions';
 import { ErrorResponse } from '@store/types';
 import { RepositoriesResponse, StatsResponse } from '@store/repositories/types';
+import { create } from 'domain';
 
 const actionCreator = actionCreatorFactory('REPOSITORY');
 
@@ -11,6 +12,10 @@ export const getRepositories = actionCreator.async<object, RepositoriesResponse[
 
 export const getAliasRepositories = actionCreator.async<object, RepositoriesResponse[], ErrorResponse>(
   'GET_ALIAS_REPOSITORIES',
+);
+
+export const addAlias = actionCreator.async<object, null, ErrorResponse>(
+  'ADD_ALIAS',
 );
 
 export const getStats = actionCreator.async<object, StatsResponse[], ErrorResponse>(
@@ -25,6 +30,8 @@ export const resetUsersWorker = clearStateActionWorker(resetUsers);
 
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
 
+export const addAliasWorker = (id: number) => createDefaultFetchWorker(addAlias, `/repository/${id}`, 'put');
+
 export const getRepositoriesWorker = createDefaultFetchWorker(
   getRepositories,
   '/repository',
@@ -32,7 +39,7 @@ export const getRepositoriesWorker = createDefaultFetchWorker(
 );
 
 export const getAliasRepositoriesWorker = createDefaultFetchWorker(
-  getRepositories,
+  getAliasRepositories,
   '/repository?alias=true',
   'get',
 );
