@@ -2,7 +2,6 @@ import actionCreatorFactory from 'typescript-fsa';
 import { clearStateActionWorker, createDefaultFetchWorker } from '@utils/builder/default-actions';
 import { ErrorResponse } from '@store/types';
 import { RepositoriesResponse, StatsResponse } from '@store/repositories/types';
-import { create } from 'domain';
 
 const actionCreator = actionCreatorFactory('REPOSITORY');
 
@@ -18,6 +17,14 @@ export const addAlias = actionCreator.async<object, null, ErrorResponse>(
   'ADD_ALIAS',
 );
 
+export const updateAlias = actionCreator.async<object, null, ErrorResponse>(
+  'UPDATE_ALIAS',
+);
+
+export const deleteAlias = actionCreator.async<object, null, ErrorResponse>(
+  'DELETE_ALIAS',
+);
+
 export const getStats = actionCreator.async<object, StatsResponse[], ErrorResponse>(
   'GET_STATS',
 );
@@ -30,7 +37,11 @@ export const resetUsersWorker = clearStateActionWorker(resetUsers);
 
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
 
-export const addAliasWorker = (id: number) => createDefaultFetchWorker(addAlias, `/repository/${id}`, 'put');
+export const addAliasWorker = createDefaultFetchWorker(addAlias, '/repository/aliases', 'post');
+
+export const updateAliasWorker = (oldAlias: string) => createDefaultFetchWorker(addAlias, `/repository/aliases/alias=${oldAlias}`, 'put');
+
+export const deleteAliasWorker = (alias: string) => createDefaultFetchWorker(deleteAlias, `/repository/aliases/alias=${alias}`, 'delete');
 
 export const getRepositoriesWorker = createDefaultFetchWorker(
   getRepositories,

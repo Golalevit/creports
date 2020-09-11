@@ -83,7 +83,7 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
 
     dispatch(
       getUsersWorker({
-        repos: newVal.map((repo: RepositoriesResponse) => repo.value),
+        repos: newVal.map((repo: RepositoriesResponse) => repo.label),
       }),
     );
   };

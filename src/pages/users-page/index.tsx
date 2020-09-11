@@ -15,7 +15,7 @@ export const UsersPage: FC = () => {
     if (!users.length) {
       dispatch(getUsersWorker());
     }
-  }, [users]);
+  }, []);
 
   const [open, setOpen] = useState<boolean>(false);
   const [aliasId, setAliasId] = useState<string>('');

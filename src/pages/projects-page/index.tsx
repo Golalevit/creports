@@ -10,14 +10,14 @@ import { Spinner } from '@components/spinner';
 export const ProjectsPage: FC = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
-  const [projectId, setProjectId] = useState<number | null>(null);
+  const [aliasName, setAliasName] = useState<string | null>(null);
   const { aliasRepositories: projectAliases, aliasRepositoriesLoading } = useSelector(getAliasRepositories);
 
   useEffect(() => {
     if (!projectAliases.length) {
       dispatch(getAliasRepositoriesWorker());
     }
-  }, [projectAliases]);
+  }, []);
 
   const handleModal = () => {
     setOpen(!open);
@@ -27,14 +27,14 @@ export const ProjectsPage: FC = () => {
     <div className="container">
       <Button onClick={handleModal} label="ADD ALIAS" />
       <AddProjectAliasModal
-        projectId={projectId}
+        aliasName={aliasName}
         setOpen={setOpen}
         open={open}
-        setProjectId={setProjectId}
+        setAliasName={setAliasName}
       />
       {aliasRepositoriesLoading
         ? (<Spinner />)
-        : (<Projects setOpen={setOpen} setProjectId={setProjectId} projects={projectAliases} />)}
+        : (<Projects setOpen={setOpen} setAliasName={setAliasName} projects={projectAliases} />)}
     </div>
   );
 };

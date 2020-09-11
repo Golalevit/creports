@@ -2,6 +2,6 @@ import { AliasRepositoriesResponse, RepositoriesResponse } from '@store/reposito
 
 export interface ProjectsProps {
   projects: AliasRepositoriesResponse[];
-  setProjectId: (id: number) => void;
+  setAliasName: (alias: string) => void;
   setOpen: (bool: boolean) => void;
 }

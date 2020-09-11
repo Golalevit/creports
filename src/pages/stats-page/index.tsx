@@ -46,7 +46,7 @@ export const StatsPage: FC = () => {
     if (filters.list.length) {
       dispatch(
         getUsersWorker({
-          repos: filters.list.map((repo: RepositoriesResponse) => repo.value),
+          repos: filters.list.map((repo: RepositoriesResponse) => repo.label),
         }),
       );
     }
@@ -69,7 +69,7 @@ export const StatsPage: FC = () => {
 
     dispatch(
       getUsersWorker({
-        repos: newVal.map((repo: RepositoriesResponse) => repo.value),
+        repos: newVal.map((repo: RepositoriesResponse) => repo.label),
       }),
     );
   };
@@ -94,7 +94,7 @@ export const StatsPage: FC = () => {
       getStatsWorker({
         startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
         endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
-        repos: filters.list.map((p: { label: string; value: number }) => p.value),
+        repos: filters.list.map((p: { label: string; value: number }) => p.label),
         users: userFilters.list.length ? userFilters.list.map((user) => user.label) : userNames,
       }),
     );

@@ -16,20 +16,23 @@ import { ProjectRow } from '@pages/projects-page/project-row';
 import { ProjectsProps } from '@pages/projects-page/projects/types';
 import { useDispatch } from 'react-redux';
 import {
-  addAliasWorker,
+  addAliasWorker, deleteAliasWorker,
   getAliasRepositoriesWorker,
 } from '@store/repositories/repositories.actions';
 
-export const Projects: FC<ProjectsProps> = ({ projects, setProjectId, setOpen }) => {
+export const Projects: FC<ProjectsProps> = ({ projects, setAliasName, setOpen }) => {
   const dispatch = useDispatch();
-  const onEdit = (id: number) => {
+  const onEdit = (alias: string) => {
     setOpen(true);
-    setProjectId(id);
+    setAliasName(alias);
   };
 
-  const onDelete = async (id: number) => {
-    await dispatch(addAliasWorker(id)({ alias: null }));
-    dispatch(getAliasRepositoriesWorker());
+  const onDelete = (alias: string) => {
+    dispatch(deleteAliasWorker(alias)({}, {
+      cOnSuccess: () => {
+        dispatch(getAliasRepositoriesWorker());
+      },
+    }));
   };
 
   const memoizedProjects = useMemo(

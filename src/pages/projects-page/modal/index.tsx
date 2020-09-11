@@ -6,7 +6,7 @@ import { FiltersConfig } from '@pages/stats-page/types';
 import { FilterBar } from '@pages/stats-page/filter-bar';
 import {
   addAliasWorker, getAliasRepositoriesWorker,
-  getRepositoriesWorker,
+  getRepositoriesWorker, updateAlias, updateAliasWorker,
 } from '@store/repositories/repositories.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -17,7 +17,7 @@ import { Input } from '@components/ui-kit/input';
 import { Button } from '@components/ui-kit/button';
 
 export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
-  open, setOpen, projectId, setProjectId,
+  open, setOpen, aliasName, setAliasName,
 }) => {
   const dispatch = useDispatch();
   const { repositories, repositoriesLoading } = useSelector(getRepositoriesData);
@@ -53,24 +53,24 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
       endDate: null,
       list: [],
     });
-    setProjectId(null);
+    setAliasName(null);
     setAlias('');
   };
 
   useEffect(() => {
-    if (projectId) {
-      const filtered = projectAliases.filter((project) => project.value === projectId);
+    if (aliasName) {
+      const filtered = projectAliases.find((project) => project.alias === aliasName);
       setFilters({
         ...filters,
-        list: filtered,
+        list: filtered!.projects.map((project, index) => ({label: project, value: index})),
       });
-      setAlias(filtered[0].alias);
+      setAlias(aliasName);
     }
-  }, [projectId]);
+  }, [aliasName]);
 
   const onChange = (_, newVal: any) => {
     setFilters({
-      list: newVal.length ? [newVal[newVal.length - 1]] : [],
+      list: newVal,
       startDate: filters.startDate,
       endDate: filters.endDate,
     });
@@ -104,8 +104,9 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
         <Button
           disabled={!alias.length}
           onClick={() => {
-            dispatch(addAliasWorker(filters.list[0].value)({
+            dispatch(updateAliasWorker(aliasName!)({
               alias,
+              repos: filters.list.reduce<string[]>((prev, curr) => [...prev, curr.label], []),
             }, {
               cOnSuccess: () => {
                 setOpen(false);
@@ -114,7 +115,7 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
               },
             }));
           }}
-          label={projectId ? 'UPDATE ALIAS' : 'CREATE ALIAS'}
+          label={aliasName ? 'UPDATE ALIAS' : 'CREATE ALIAS'}
         />
       </div>
     </Dialog>

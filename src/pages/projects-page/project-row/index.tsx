@@ -11,14 +11,14 @@ export const ProjectRow: FC<ProjectRowProps> = ({ project, onEdit, onDelete }) =
         <p>{project.alias}</p>
       </TableCell>
       <TableCell align="center" colSpan={1}>
-        <p>{project.label}</p>
+        {project.projects.map((projectName) => (<p key={projectName}>{projectName}</p>))}
       </TableCell>
       <TableCell>
         <div className="icons">
-          <Button onClick={() => onDelete(project.value)} type="button">
+          <Button onClick={() => onDelete(project.alias)} type="button">
             <Delete />
           </Button>
-          <Button onClick={() => onEdit(project.value)} type="button">
+          <Button onClick={() => onEdit(project.alias)} type="button">
             <Edit />
           </Button>
         </div>

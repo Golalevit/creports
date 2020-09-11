@@ -5,6 +5,7 @@ export interface RepositoriesResponse {
 
 export interface AliasRepositoriesResponse extends RepositoriesResponse {
   alias: string;
+  projects: string[];
 }
 
 export interface RepositoriesState {
