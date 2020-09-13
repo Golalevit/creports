@@ -20,10 +20,6 @@ export const UsersPage: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [aliasId, setAliasId] = useState<string>('');
 
-  const onClickSetAliasId = (id: string) => {
-    setAliasId(id);
-  };
-
   const handleModal = () => {
     setOpen(!open);
   };
@@ -41,9 +37,11 @@ export const UsersPage: FC = () => {
         open={open}
         aliasId={aliasId}
       />
-      {usersLoading
-        ? <Spinner />
-        : <Users users={users} setAliasId={onClickSetAliasId} handleModal={handleModal} />}
+      {usersLoading ? (
+        <Spinner />
+      ) : (
+        <Users users={users} setAliasId={setAliasId} handleModal={handleModal} />
+      )}
     </div>
   );
 };

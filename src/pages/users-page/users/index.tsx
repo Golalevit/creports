@@ -1,6 +1,4 @@
-import React, {
-  FC, useMemo, Fragment,
-} from 'react';
+import React, { FC, useMemo, Fragment } from 'react';
 import shortid from 'shortid';
 import {
   TableContainer,
@@ -32,7 +30,7 @@ export const Users: FC<UsersProps> = ({ handleModal, setAliasId, users }) => {
   const memoizedUsers = useMemo(
     () => users?.map((user) => (
       <Fragment key={shortid.generate()}>
-        <UserRow key={shortid.generate()} onEdit={onEdit} onDelete={onDelete} user={user} />
+        <UserRow onEdit={onEdit} onDelete={onDelete} user={user} />
       </Fragment>
     )),
     [users],

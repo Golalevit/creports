@@ -5,8 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FiltersConfig } from '@pages/stats-page/types';
 import { FilterBar } from '@pages/stats-page/filter-bar';
 import {
-  addAliasWorker, getAliasRepositoriesWorker,
-  getRepositoriesWorker, updateAlias, updateAliasWorker,
+  addAliasWorker,
+  getAliasRepositoriesWorker,
+  getRepositoriesWorker,
+  updateAliasWorker,
 } from '@store/repositories/repositories.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -17,13 +19,15 @@ import { Input } from '@components/ui-kit/input';
 import { Button } from '@components/ui-kit/button';
 
 export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
-  open, setOpen, aliasName, setAliasName,
+  open,
+  setOpen,
+  aliasName,
+  setAliasName,
 }) => {
   const dispatch = useDispatch();
   const { repositories, repositoriesLoading } = useSelector(getRepositoriesData);
   const { aliasRepositories: projectAliases } = useSelector(getAliasRepositories);
-  const filteredRepositories = repositories
-    .filter((repo1) => projectAliases.every((repo2) => repo1.label !== repo2.alias));
+  const filteredRepositories = repositories.filter((repo1) => projectAliases.every((repo2) => repo1.label !== repo2.alias));
   const [alias, setAlias] = useState<string>('');
 
   useEffect(() => {
@@ -62,7 +66,7 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
       const filtered = projectAliases.find((project) => project.alias === aliasName);
       setFilters({
         ...filters,
-        list: filtered!.projects.map((project, index) => ({label: project, value: index})),
+        list: filtered!.projects.map((project, index) => ({ label: project, value: index })),
       });
       setAlias(aliasName);
     }
@@ -97,23 +101,44 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
           filters={filters}
           setFilters={setFilters}
         />
-        { filters.list.length
-          ? <Input label="Alias" value={alias} onChange={(e) => setAlias(e.target.value)} /> : null}
+        {filters.list.length ? (
+          <Input label="Alias" value={alias} onChange={(e) => setAlias(e.target.value)} />
+        ) : null}
       </div>
       <div className="button">
         <Button
           disabled={!alias.length}
           onClick={() => {
-            dispatch(updateAliasWorker(aliasName!)({
-              alias,
-              repos: filters.list.reduce<string[]>((prev, curr) => [...prev, curr.label], []),
-            }, {
-              cOnSuccess: () => {
-                setOpen(false);
-                dispatch(getAliasRepositoriesWorker());
-                resetStates();
-              },
-            }));
+            if (aliasName) {
+              dispatch(
+                updateAliasWorker(aliasName)(
+                  {
+                    alias,
+                    repos: filters.list.map((item) => item.label),
+                  },
+                  {
+                    cOnSuccess: () => {
+                      setOpen(false);
+                      dispatch(getAliasRepositoriesWorker());
+                      resetStates();
+                    },
+                  },
+                ),
+              );
+            } else {
+              dispatch(
+                addAliasWorker(
+                  { alias, repos: filters.list.map((item) => item.label) },
+                  {
+                    cOnSuccess: () => {
+                      setOpen(false);
+                      dispatch(getAliasRepositoriesWorker());
+                      resetStates();
+                    },
+                  },
+                ),
+              );
+            }
           }}
           label={aliasName ? 'UPDATE ALIAS' : 'CREATE ALIAS'}
         />

@@ -70,12 +70,8 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
     });
   };
 
-  const _setFilters = (data: FiltersConfig) => {
-    setFilters(data);
-  };
-
   const onChange = (_, newVal: any) => {
-    _setFilters({
+    setFilters({
       list: newVal,
       startDate: filters.startDate,
       endDate: filters.endDate,
