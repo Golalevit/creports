@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
-import { FilterBar } from '@pages/repository-page/filter-bar';
-import { FiltersConfig } from '@pages/repository-page/types';
+import { FiltersConfig } from '@pages/stats-page/types';
 import {
   getRepositoriesWorker,
   getUsersWorker,
@@ -21,6 +20,8 @@ import {
 } from '@store/users/users.actions';
 import { AddAliasModalProps } from '@pages/users-page/modal/types';
 import { getAliasUsers } from '@store/users/users.selectors';
+import { Autocomplete } from '@components/ui-kit/autocomplete';
+import { UsersFilter } from '@store/users/types';
 
 export const AddAliasModal: FC<AddAliasModalProps> = ({
   open,
@@ -46,63 +47,26 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
   const [filters, setFilters] = useState<FiltersConfig>({
     startDate: null,
     endDate: null,
-    list: [],
-  });
-
-  const [userFilters, setUserFilters] = useState<FiltersConfig>({
-    startDate: null,
-    endDate: null,
-    list: [],
+    projects: [],
+    users: [],
   });
 
   const [alias, setAlias] = useState<string>('');
 
   const resetStates = () => {
-    setUserFilters({
-      startDate: null,
-      endDate: null,
-      list: [],
-    });
     setFilters({
       startDate: null,
       endDate: null,
-      list: [],
+      projects: [],
+      users: [],
     });
-  };
-
-  useEffect(() => {
-    if (filters.list.length) {
-      dispatch(
-        getUsersWorker({
-          repos: filters.list.map((repo: RepositoriesResponse) => repo.value),
-        }),
-      );
-    }
-  }, []);
-
-  const _setFilters = (data: FiltersConfig) => {
-    setFilters(data);
-  };
-
-  const onChange = (_, newVal: any) => {
-    _setFilters({
-      list: newVal,
-      startDate: filters.startDate,
-      endDate: filters.endDate,
-    });
-
-    dispatch(
-      getUsersWorker({
-        repos: newVal.map((repo: RepositoriesResponse) => repo.value),
-      }),
-    );
   };
 
   useEffect(() => {
     if (!aliasOptions) {
-      setUserFilters({
-        ...userFilters,
-        list: userFilters.list.filter((filteredUser) =>
+      setFilters({
+        ...filters,
+        users: filters.users?.filter((filteredUser) =>
           users.some((user) => filteredUser.label === user.label),
         ),
       });
@@ -112,20 +76,12 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
   useEffect(() => {
     if (aliasOptions) {
       setAlias(aliasResult!.alias);
-      setUserFilters({
-        ...userFilters,
-        list: aliasOptions,
+      setFilters({
+        ...filters,
+        users: aliasOptions,
       });
     }
   }, [aliasId]);
-
-  const onUserChange = (_, newVal: any) => {
-    setUserFilters({
-      list: newVal,
-      startDate: filters.startDate,
-      endDate: filters.endDate,
-    });
-  };
 
   return (
     <Dialog
@@ -141,29 +97,46 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
       open={open}
     >
       <div>
-        <FilterBar
-          fetchOptions={getRepositoriesWorker}
-          onChange={onChange}
-          showDatePicker={false}
-          label="Projects"
-          isLoading={repositoriesLoading}
-          options={repositories}
-          filters={filters}
-          setFilters={setFilters}
-        />
+        <div className="filters">
+          <div className="filters__projects">
+            <Autocomplete
+              fetchOptions={getRepositoriesWorker}
+              value={filters.projects}
+              onChange={(_, newVal: RepositoriesResponse[]) => {
+                setFilters({
+                  ...filters,
+                  projects: newVal,
+                });
+
+                dispatch(
+                  getUsersWorker({
+                    repos: newVal.map((repo: RepositoriesResponse) => repo.label),
+                  }),
+                );
+              }}
+              options={repositories}
+              label="Projects"
+              isLoading={repositoriesLoading}
+            />
+          </div>
+        </div>
         {users.length || aliasResult?.users.length ? (
-          <FilterBar
-            onChange={onUserChange}
-            showDatePicker={false}
-            label="Users"
-            isLoading={usersLoading}
-            options={users || aliasOptions}
-            filters={userFilters}
-            setFilters={setUserFilters}
-          />
+          <div className="filters">
+            <div className="filters__projects">
+              <Autocomplete
+                value={filters.users!}
+                onChange={(_, newVal: UsersFilter[]) => setFilters({
+                  ...filters, users: newVal,
+                })}
+                options={users}
+                label="Users"
+                isLoading={usersLoading}
+              />
+            </div>
+          </div>
         ) : null}
-        {userFilters.list.length ? (
-          <Input label="Alias" value={alias!} onChange={(e) => setAlias(e.target.value)} />
+        {filters.users?.length ? (
+          <Input label="Alias" value={alias!} onChange={(e: ChangeEvent<HTMLInputElement>) => setAlias(e.target.value)} />
         ) : null}
       </div>
       <div className="button">
@@ -175,7 +148,7 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
                 updateAliasWorker(aliasId)(
                   {
                     alias,
-                    users: userFilters.list.map((user) => user.label),
+                    users: filters.users?.map((user) => user.label),
                   },
                   {
                     cOnSuccess: () => {
@@ -192,7 +165,7 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
             } else {
               dispatch(
                 createUserAliasWorker(
-                  { alias, users: userFilters.list.map((user) => user.label) },
+                  { alias, users: filters.users?.map((user) => user.label) },
                   {
                     cOnSuccess: () => {
                       handleModal(false);

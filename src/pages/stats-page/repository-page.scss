@@ -1,3 +1,15 @@
+.repositories {
+  &__controls {
+    margin: 10px 10px 10px 210px;
+
+    &__filters {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+
 .filters {
   display: flex;
   flex: 1;
@@ -16,3 +28,4 @@
     margin: 5px;
   }
 }
+

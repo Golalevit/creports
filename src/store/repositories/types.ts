@@ -3,10 +3,17 @@ export interface RepositoriesResponse {
   label: string;
 }
 
+export interface AliasRepositoriesResponse extends RepositoriesResponse {
+  alias: string;
+  projects: string[];
+}
+
 export interface RepositoriesState {
   repositoryId: number | null;
   repositories: RepositoriesResponse[];
   repositoriesLoading: boolean;
+  aliasRepositories: AliasRepositoriesResponse[];
+  aliasRepositoriesLoading: boolean;
   users: string[];
   usersLoading: boolean;
   stats: StatsResponse[];

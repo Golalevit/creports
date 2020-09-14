@@ -1,6 +1,4 @@
-import React, {
-  FC, useMemo, Fragment, useEffect,
-} from 'react';
+import React, { FC, useMemo, Fragment } from 'react';
 import shortid from 'shortid';
 import {
   TableContainer,
@@ -13,18 +11,12 @@ import {
 } from '@material-ui/core';
 import './users.scss';
 import { UserRow } from '@pages/users-page/user-rows';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getUsersWorker, deleteUsersAliasWorker } from '@store/users/users.actions';
-import { getUsersData } from '@store/users/users.selectors';
 import { UsersProps } from './types';
 
-export const Users: FC<UsersProps> = ({ handleModal, setAliasId }) => {
+export const Users: FC<UsersProps> = ({ handleModal, setAliasId, users }) => {
   const dispatch = useDispatch();
-  const { users } = useSelector(getUsersData);
-
-  useEffect(() => {
-    dispatch(getUsersWorker());
-  }, []);
 
   const onDelete = (id: string) => {
     dispatch(deleteUsersAliasWorker(id)(null, { cOnSuccess: () => dispatch(getUsersWorker()) }));

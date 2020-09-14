@@ -8,3 +8,8 @@ export interface UsersResponse {
   users: string[];
   id: string;
 }
+
+export interface UsersFilter {
+  label: string;
+  value: number;
+}
