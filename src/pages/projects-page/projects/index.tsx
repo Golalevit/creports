@@ -20,6 +20,7 @@ import {
 
 export const Projects: FC<ProjectsProps> = ({ projects, setAliasName, setOpen }) => {
   const dispatch = useDispatch();
+
   const onEdit = (alias: string) => {
     setOpen(true);
     setAliasName(alias);
