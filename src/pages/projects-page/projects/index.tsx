@@ -26,14 +26,8 @@ export const Projects: FC<ProjectsProps> = ({ projects, setAliasName, setOpen })
   };
 
   const onDelete = (alias: string) => {
-    dispatch(
-      deleteAliasWorker(alias)(
-        {},
-        {
-          cOnSuccess: () => {
-            dispatch(getAliasRepositoriesWorker());
-          },
-        },
+    dispatch(deleteAliasWorker(alias)(
+        {}, { cOnSuccess: () => dispatch(getAliasRepositoriesWorker()) },
       ),
     );
   };

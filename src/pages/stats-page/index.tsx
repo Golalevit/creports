@@ -1,15 +1,16 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import { Autocomplete } from '@components/ui-kit/autocomplete';
+import { RangeDatePicker } from '@components/ui-kit/range-datepicker';
 import {
   getRepositoriesData,
   getUsersData,
   getUsers,
   getStats,
 } from '@store/repositories/repositories.selectors';
-import { FilterBar } from '@pages/stats-page/filter-bar';
 import { FiltersConfig } from '@pages/stats-page/types';
 import { Button } from '@components/ui-kit/button';
-import moment from 'moment';
 import {
   getStatsWorker,
   getRepositoriesWorker,
@@ -33,69 +34,42 @@ export const StatsPage: FC = () => {
   const [filters, setFilters] = useState<FiltersConfig>({
     startDate: new Date(getLocalStorage('startDate', new Date())),
     endDate: new Date(getLocalStorage('endDate', new Date())),
-    list: getLocalStorage('repositories', []),
-  });
-
-  const [userFilters, setUserFilters] = useState<FiltersConfig>({
-    startDate: new Date(getLocalStorage('startDate', new Date())),
-    endDate: new Date(getLocalStorage('endDate', new Date())),
-    list: [],
+    projects: getLocalStorage('repositories', []),
+    users: [],
   });
 
   useEffect(() => {
-    if (filters.list.length) {
+    if (filters.projects.length) {
       dispatch(
         getUsersWorker({
-          repos: filters.list.map((repo: RepositoriesResponse) => repo.label),
+          repos: filters.projects.map((repo: RepositoriesResponse) => repo.label),
         }),
       );
     }
-  }, [filters.list]);
+  }, [filters.projects]);
 
   const _setFilters = (data: FiltersConfig) => {
-    localStorage.setItem('repositories', JSON.stringify(data.list));
+    localStorage.setItem('repositories', JSON.stringify(data.projects));
     localStorage.setItem('startDate', JSON.stringify(data.startDate));
     localStorage.setItem('endDate', JSON.stringify(data.endDate));
 
     setFilters(data);
   };
 
-  const onChange = (_, newVal: any) => {
-    _setFilters({
-      list: newVal,
-      startDate: filters.startDate,
-      endDate: filters.endDate,
-    });
-
-    dispatch(
-      getUsersWorker({
-        repos: newVal.map((repo: RepositoriesResponse) => repo.label),
-      }),
-    );
-  };
-
   useEffect(() => {
-    setUserFilters({
-      ...userFilters,
-      list: userFilters.list.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
+    setFilters({
+      ...filters,
+      users: filters.users.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
     });
   }, [users]);
-
-  const onUserChange = (_, newVal: any) => {
-    setUserFilters({
-      list: newVal,
-      startDate: filters.startDate,
-      endDate: filters.endDate,
-    });
-  };
 
   const generateStats = () => {
     dispatch(
       getStatsWorker({
         startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
         endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
-        repos: filters.list.map((p: { label: string; value: number }) => p.label),
-        users: userFilters.list.length ? userFilters.list.map((user) => user.label) : userNames,
+        repos: filters.projects.map((p: { label: string; value: number }) => p.label),
+        users: filters.users.length ? filters.users.map((user) => user.label) : userNames,
       }),
     );
   };
@@ -103,16 +77,39 @@ export const StatsPage: FC = () => {
   return (
     <div className="repositories__controls container">
       <div className="repositories__controls__filters">
-        <FilterBar
-          showDatePicker
-          onChange={onChange}
-          label="Repositories"
-          fetchOptions={getRepositoriesWorker}
-          isLoading={repositoriesLoading}
-          options={repositories}
-          filters={filters}
-          setFilters={_setFilters}
-        />
+        <div className="filters">
+          <div className="filters__projects">
+            <Autocomplete
+              fetchOptions={getRepositoriesWorker}
+              value={filters.list}
+              onChange={(_, newVal: RepositoriesResponse[]) => {
+                _setFilters({
+                  ...filters,
+                  projects: newVal,
+                });
+
+                dispatch(
+                  getUsersWorker({
+                    repos: newVal.map((repo: RepositoriesResponse) => repo.label),
+                  }),
+                );
+              }}
+              options={repositories}
+              label="Projects"
+              isLoading={repositoriesLoading}
+            />
+          </div>
+          <div className="filters__controlls">
+            <RangeDatePicker
+              startDate={filters.startDate}
+              endDate={filters.endDate}
+              onChange={(range) => setFilters({
+                ...filters,
+                ...range,
+              })}
+            />
+          </div>
+        </div>
         <Button
           label="GENERATE"
           onClick={generateStats}
@@ -120,15 +117,21 @@ export const StatsPage: FC = () => {
         />
       </div>
       {users.length ? (
-        <FilterBar
-          onChange={onUserChange}
-          showDatePicker={false}
-          label="Users"
-          isLoading={usersLoading}
-          options={users}
-          filters={userFilters}
-          setFilters={setUserFilters}
-        />
+        <div className="filters">
+          <div className="filters__projects">
+            <Autocomplete
+              fetchOptions={getRepositoriesWorker}
+              value={filters.users}
+              onChange={(_, newVal: any) => setFilters({
+                  ...filters, users: newVal
+                })
+              }
+              options={users}
+              label="Users"
+              isLoading={usersLoading}
+            />
+          </div>
+        </div>
       ) : null}
       {statsLoading ? <Spinner /> : <Stats stats={stats} />}
     </div>
