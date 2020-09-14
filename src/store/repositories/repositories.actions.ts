@@ -17,6 +17,8 @@ export const resetUsers = actionCreator(
   'RESET_USERS',
 );
 
+export const resetUsersWorker = clearStateActionWorker(resetUsers);
+
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
 
 export const getRepositoriesWorker = createDefaultFetchWorker(

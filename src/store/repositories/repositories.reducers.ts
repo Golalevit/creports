@@ -1,11 +1,12 @@
 import {
+  clearStateReducerActionCreator,
   defaultReducerActionCreator,
 } from '@utils/builder/default-reducer';
 import { Action } from '@utils/builder/types';
 import {
   getRepositories,
   getUsers,
-  getStats,
+  getStats, resetUsers,
 } from '@store/repositories/repositories.actions';
 import { RepositoriesState } from './types';
 
@@ -32,6 +33,7 @@ export const repositoriesReducer = (state = initialState, action: Action): Repos
       errorMask: 'repositoriesError',
       loadingMask: 'usersLoading',
     }),
+    ...clearStateReducerActionCreator(resetUsers, state, action),
     ...defaultReducerActionCreator(getStats, state, action, {
       dataMask: 'stats',
       errorMask: 'repositoriesError',
