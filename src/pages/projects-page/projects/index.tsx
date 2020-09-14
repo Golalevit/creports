@@ -27,9 +27,8 @@ export const Projects: FC<ProjectsProps> = ({ projects, setAliasName, setOpen })
 
   const onDelete = (alias: string) => {
     dispatch(deleteAliasWorker(alias)(
-        {}, { cOnSuccess: () => dispatch(getAliasRepositoriesWorker()) },
-      ),
-    );
+      {}, { cOnSuccess: () => dispatch(getAliasRepositoriesWorker()) },
+    ));
   };
 
   const memoizedProjects = useMemo(

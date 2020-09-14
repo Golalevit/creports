@@ -59,7 +59,7 @@ export const StatsPage: FC = () => {
   useEffect(() => {
     setFilters({
       ...filters,
-      users: filters.users.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
+      users: filters.users?.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
     });
   }, [users]);
 
@@ -69,7 +69,7 @@ export const StatsPage: FC = () => {
         startDate: moment(filters.startDate).startOf('day').format('YYYY-MM-DD'),
         endDate: moment(filters.endDate).endOf('day').format('YYYY-MM-DD'),
         repos: filters.projects.map((p: { label: string; value: number }) => p.label),
-        users: filters.users.length ? filters.users.map((user) => user.label) : userNames,
+        users: filters.users?.length ? filters.users.map((user) => user.label) : userNames,
       }),
     );
   };
@@ -81,7 +81,7 @@ export const StatsPage: FC = () => {
           <div className="filters__projects">
             <Autocomplete
               fetchOptions={getRepositoriesWorker}
-              value={filters.list}
+              value={filters.projects}
               onChange={(_, newVal: RepositoriesResponse[]) => {
                 _setFilters({
                   ...filters,
@@ -113,7 +113,7 @@ export const StatsPage: FC = () => {
         <Button
           label="GENERATE"
           onClick={generateStats}
-          disabled={repositoriesLoading || (!filters.list.length && !users.length)}
+          disabled={repositoriesLoading || (!filters.projects.length && !filters.users?.length)}
         />
       </div>
       {users.length ? (
@@ -121,11 +121,10 @@ export const StatsPage: FC = () => {
           <div className="filters__projects">
             <Autocomplete
               fetchOptions={getRepositoriesWorker}
-              value={filters.users}
+              value={filters.users!}
               onChange={(_, newVal: any) => setFilters({
-                  ...filters, users: newVal
-                })
-              }
+                ...filters, users: newVal,
+              })}
               options={users}
               label="Users"
               isLoading={usersLoading}

@@ -1,13 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { AddProjectAliasProps } from '@pages/projects-page/modal/types';
 import { Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FiltersConfig } from '@pages/stats-page/types';
-import { FilterBar } from '@pages/stats-page/filter-bar';
 import {
   addAliasWorker,
   getAliasRepositoriesWorker,
-  getRepositoriesWorker,
+  getRepositoriesWorker, getUsersWorker,
   updateAliasWorker,
 } from '@store/repositories/repositories.actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +16,8 @@ import {
 } from '@store/repositories/repositories.selectors';
 import { Input } from '@components/ui-kit/input';
 import { Button } from '@components/ui-kit/button';
+import { Autocomplete } from '@components/ui-kit/autocomplete';
+import { RepositoriesResponse } from '@store/repositories/types';
 
 export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
   open,
@@ -48,14 +49,14 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
   const [filters, setFilters] = useState<FiltersConfig>({
     startDate: null,
     endDate: null,
-    list: [],
+    projects: [],
   });
 
   const resetStates = () => {
     setFilters({
       startDate: null,
       endDate: null,
-      list: [],
+      projects: [],
     });
     setAliasName(null);
     setAlias('');
@@ -66,19 +67,11 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
       const filtered = projectAliases.find((project) => project.alias === aliasName);
       setFilters({
         ...filters,
-        list: filtered!.projects.map((project, index) => ({ label: project, value: index })),
+        projects: filtered!.projects.map((project, index) => ({ label: project, value: index })),
       });
       setAlias(aliasName);
     }
   }, [aliasName]);
-
-  const onChange = (_, newVal: any) => {
-    setFilters({
-      list: newVal,
-      startDate: filters.startDate,
-      endDate: filters.endDate,
-    });
-  };
 
   return (
     <Dialog
@@ -91,18 +84,25 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
       fullWidth
     >
       <div>
-        <FilterBar
-          fetchOptions={getRepositoriesWorker}
-          onChange={onChange}
-          showDatePicker={false}
-          label="Projects"
-          isLoading={repositoriesLoading}
-          options={filteredRepositories}
-          filters={filters}
-          setFilters={setFilters}
-        />
-        {filters.list.length ? (
-          <Input label="Alias" value={alias} onChange={(e) => setAlias(e.target.value)} />
+        <div className="filters">
+          <div className="filters__projects">
+            <Autocomplete
+              fetchOptions={getRepositoriesWorker}
+              value={filters.projects}
+              onChange={(_, newVal: RepositoriesResponse[]) => {
+                setFilters({
+                  ...filters,
+                  projects: newVal,
+                });
+              }}
+              options={filteredRepositories}
+              label="Projects"
+              isLoading={repositoriesLoading}
+            />
+          </div>
+        </div>
+        {filters.projects.length ? (
+          <Input label="Alias" value={alias} onChange={(e: ChangeEvent<HTMLInputElement>) => setAlias(e.target.value)} />
         ) : null}
       </div>
       <div className="button">
@@ -114,7 +114,7 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
                 updateAliasWorker(aliasName)(
                   {
                     alias,
-                    repos: filters.list.map((item) => item.label),
+                    repos: filters.projects.map((item) => item.label),
                   },
                   {
                     cOnSuccess: () => {
@@ -128,7 +128,7 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
             } else {
               dispatch(
                 addAliasWorker(
-                  { alias, repos: filters.list.map((item) => item.label) },
+                  { alias, repos: filters.projects.map((item) => item.label) },
                   {
                     cOnSuccess: () => {
                       setOpen(false);

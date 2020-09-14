@@ -33,14 +33,14 @@ export const UsersPage: FC = () => {
       <Button onClick={handleModal} label="ADD ALIAS" />
       <AddAliasModal
         resetAliasId={resetAliasId}
-        handleModal={setOpen}
+        handleModal={() => setOpen(!open)}
         open={open}
         aliasId={aliasId}
       />
       {usersLoading ? (
         <Spinner />
       ) : (
-        <Users users={users} setAliasId={setAliasId} handleModal={handleModal} />
+        <Users users={users} setAliasId={setAliasId} handleModal={() => setOpen(!open)} />
       )}
     </div>
   );
