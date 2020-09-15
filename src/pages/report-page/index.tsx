@@ -36,7 +36,9 @@ export const ReportPage: FC = () => {
     setEmails(data);
   };
 
-  const getLocalStorage = (key: string, defaultValue: Array<string> | Date) => (localStorage.getItem(key)
+  const getLocalStorage = (
+    key: string, defaultValue: Array<string> | Date,
+  ) => (localStorage.getItem(key)
     ? JSON.parse(localStorage.getItem(key) || '{}') : defaultValue);
 
   const [filters, setFilters] = useState<FiltersConfig>({

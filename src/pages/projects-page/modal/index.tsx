@@ -1,4 +1,6 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent, FC, useEffect, useState,
+} from 'react';
 import { AddProjectAliasProps } from '@pages/projects-page/modal/types';
 import { Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,7 +8,7 @@ import { FiltersConfig } from '@pages/stats-page/types';
 import {
   addAliasWorker,
   getAliasRepositoriesWorker,
-  getRepositoriesWorker, getUsersWorker,
+  getRepositoriesWorker,
   updateAliasWorker,
 } from '@store/repositories/repositories.actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +30,8 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
   const dispatch = useDispatch();
   const { repositories, repositoriesLoading } = useSelector(getRepositoriesData);
   const { aliasRepositories: projectAliases } = useSelector(getAliasRepositories);
-  const filteredRepositories = repositories.filter((repo1) => projectAliases.every((repo2) => repo1.label !== repo2.alias));
+  const filteredRepositories = repositories
+    .filter((repo1) => projectAliases.every((repo2) => repo1.label !== repo2.alias));
   const [alias, setAlias] = useState<string>('');
 
   useEffect(() => {

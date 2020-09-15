@@ -1,4 +1,6 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent, FC, useEffect, useState,
+} from 'react';
 import { Dialog } from '@material-ui/core';
 import { FiltersConfig } from '@pages/stats-page/types';
 import {
@@ -66,8 +68,8 @@ export const AddAliasModal: FC<AddAliasModalProps> = ({
     if (!aliasOptions) {
       setFilters({
         ...filters,
-        users: filters.users?.filter((filteredUser) =>
-          users.some((user) => filteredUser.label === user.label),
+        users: filters.users?.filter((filteredUser) => users
+          .some((user) => filteredUser.label === user.label),
         ),
       });
     }

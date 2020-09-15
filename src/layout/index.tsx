@@ -101,14 +101,12 @@ export const Layout: FC = () => {
         </List>
       </Drawer>
       <Switch>
-          {routes.map((route) => (
-              <ExtendedRouter
-                key={route.path}
-                path={route.path}
-                component={route.component}
-                {...route}
-              />
-          ))}
+        {routes.map((route) => (
+          <ExtendedRouter
+            key={route.path}
+            {...route}
+          />
+        ))}
       </Switch>
     </>
   );

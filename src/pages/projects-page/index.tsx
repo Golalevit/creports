@@ -12,7 +12,9 @@ export const ProjectsPage: FC = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const [aliasName, setAliasName] = useState<string | null>(null);
-  const { aliasRepositories: projectAliases, aliasRepositoriesLoading } = useSelector(getAliasRepositories);
+  const {
+    aliasRepositories: projectAliases, aliasRepositoriesLoading,
+  } = useSelector(getAliasRepositories);
 
   useEffect(() => {
     if (!projectAliases.length) {
