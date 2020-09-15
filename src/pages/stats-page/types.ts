@@ -5,5 +5,5 @@ export interface FiltersConfig {
   startDate: Date | null;
   endDate: Date | null;
   projects: RepositoriesResponse[];
-  users?: UsersFilter[];
+  users: UsersFilter[];
 }

@@ -59,7 +59,9 @@ export const StatsPage: FC = () => {
   useEffect(() => {
     setFilters({
       ...filters,
-      users: filters.users?.filter((filteredUser) => users.some((user) => filteredUser.label === user.label)),
+      users: filters.users?.filter((filteredUser) => users
+        .some((user) => filteredUser.label === user.label)
+      ),
     });
   }, [users]);
 
@@ -103,7 +105,7 @@ export const StatsPage: FC = () => {
             <RangeDatePicker
               startDate={filters.startDate}
               endDate={filters.endDate}
-              onChange={(range) => setFilters({
+              onChange={(range) => _setFilters({
                 ...filters,
                 ...range,
               })}
