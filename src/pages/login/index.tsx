@@ -20,7 +20,7 @@ export const LoginPage: FC = () => {
           clientId={process.env.GOOGLE_LOGIN_ID || ''}
           className="login__button"
           responseType="code"
-          onSuccess={(res) => dispatch(loginWorker(res.code, {
+          onSuccess={(res) => dispatch(loginWorker({ code: res.code }, {
             cOnSuccess: () => history.push(PAGES.REPORT_PAGE),
           }))}
           onFailure={() => setErrors(true)}
