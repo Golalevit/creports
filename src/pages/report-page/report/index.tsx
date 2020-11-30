@@ -52,7 +52,7 @@ export const Report: FC<ReportProps> = ({
           <TableRow>
             <TableCell colSpan={4} className="report-total">
               Worklog Reporter total:
-              {report.total}
+              {parseFloat(report.total).toFixed(2)}
             </TableCell>
           </TableRow>
         </TableFooter>

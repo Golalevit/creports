@@ -24,6 +24,7 @@ export const UserRow: FC<UserRowProps> = ({
 
   const addTask = () => {
     updateReport((prevState: ReportResponse) => {
+      console.log(prevState);
       const newState = prevState.users.map((u, i) => (i === userIndex
         ? {
           ...u,

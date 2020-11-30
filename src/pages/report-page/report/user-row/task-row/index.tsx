@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import moment from 'moment';
 
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
+import { Button } from '@components/ui-kit/button';
 import { ReportResponse } from '@store/report/types';
 import { updateTaksState, updateUserState } from '@utils/state-updater';
 import { TaskRowProps } from './types';
@@ -11,10 +12,33 @@ import { TaskRowProps } from './types';
 import './task-row.scss';
 
 export const TaskRow: FC<TaskRowProps> = ({
-  task, userIndex, taskIndex, updateReport,
+  task, userIndex, taskIndex, updateReport
 }) => {
   const taskUpdater = updateTaksState(userIndex, taskIndex);
   const userUpdater = updateUserState(userIndex);
+
+  const deleteTask = () => {
+    updateReport((prevState: ReportResponse) => {
+      let user = prevState.users.find((u,i) => i === userIndex);
+      const tasks = user?.tasks.filter(t => task.taskId !== t.taskId);
+
+      let newUserState = userUpdater(prevState, 'tasks', tasks);
+
+      const userTotalHours = newUserState.users[userIndex].tasks.reduce(
+        (a, b) => Number(a) + Number(b.timeSpent),
+        0,
+      );
+
+      newUserState = userUpdater(newUserState, 'timeSpent', userTotalHours);
+
+      const totalReportHours = newUserState.users.reduce(
+        (a, b) => Number(a) + Number(b.timeSpent),
+        0,
+      );
+
+      return { ...newUserState, total: `${totalReportHours}` };
+      })
+  }
 
   return (
     <TableRow className="worklog">
@@ -74,7 +98,6 @@ export const TaskRow: FC<TaskRowProps> = ({
                   (a, b) => Number(a) + Number(b.timeSpent),
                   0,
                 );
-
                 return { ...newUserState, total: `${totalReportHours}` };
               });
             }}
@@ -85,6 +108,10 @@ export const TaskRow: FC<TaskRowProps> = ({
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'excluded', !e.target.checked));
             }}
+          />
+          <Button
+            label="X"
+            onClick={deleteTask}
           />
         </div>
       </TableCell>
