@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
 import { Button } from '@components/ui-kit/button';
-import { ReportResponse } from '@store/report/types';
+import { ReportResponse, User, Task } from '@store/report/types';
 import { updateTaksState, updateUserState } from '@utils/state-updater';
 import { TaskRowProps } from './types';
 
@@ -17,26 +17,20 @@ export const TaskRow: FC<TaskRowProps> = ({
   const taskUpdater = updateTaksState(userIndex, taskIndex);
   const userUpdater = updateUserState(userIndex);
 
+  const getTotalHours = (array: (User | Task)[]): number => array.reduce(
+    (a, b) => Number(a) + Number(b.timeSpent),
+    0,
+  );
+
   const deleteTask = () => {
     updateReport((prevState: ReportResponse) => {
-      let user = prevState.users.find((u,i) => i === userIndex);
-      const tasks = user?.tasks.filter(t => task.taskId !== t.taskId);
+      const tasks = prevState.users[userIndex]?.tasks.filter(t => task.taskId !== t.taskId);
+      const newUserState = userUpdater(prevState, 'tasks', tasks);
+      const userTotalHours = getTotalHours(newUserState.users[userIndex].tasks);
+      const newUserStateWithUpdateTotalHours= userUpdater(newUserState, 'timeSpent', userTotalHours);
+      const totalReportHours = getTotalHours(newUserStateWithUpdateTotalHours.users);
 
-      let newUserState = userUpdater(prevState, 'tasks', tasks);
-
-      const userTotalHours = newUserState.users[userIndex].tasks.reduce(
-        (a, b) => Number(a) + Number(b.timeSpent),
-        0,
-      );
-
-      newUserState = userUpdater(newUserState, 'timeSpent', userTotalHours);
-
-      const totalReportHours = newUserState.users.reduce(
-        (a, b) => Number(a) + Number(b.timeSpent),
-        0,
-      );
-
-      return { ...newUserState, total: `${totalReportHours}` };
+      return { ...newUserStateWithUpdateTotalHours, total: `${totalReportHours}` };
       })
   }
 
@@ -88,16 +82,9 @@ export const TaskRow: FC<TaskRowProps> = ({
             onSave={(value: string) => {
               updateReport((prevState: ReportResponse) => {
                 const newTaskState = taskUpdater(prevState, 'timeSpent', value);
-                const userTotalHours = newTaskState.users[userIndex].tasks.reduce(
-                  (a, b) => Number(a) + Number(b.timeSpent),
-                  0,
-                );
+                const userTotalHours = getTotalHours(newTaskState.users[userIndex].tasks);
                 const newUserState = userUpdater(newTaskState, 'timeSpent', userTotalHours);
-
-                const totalReportHours = newUserState.users.reduce(
-                  (a, b) => Number(a) + Number(b.timeSpent),
-                  0,
-                );
+                const totalReportHours = getTotalHours(newUserState.users);
                 return { ...newUserState, total: `${totalReportHours}` };
               });
             }}
