@@ -29,7 +29,6 @@ export const TaskRow: FC<TaskRowProps> = ({
       const userTotalHours = getTotalHours(newUserState.users[userIndex].tasks);
       const newUserStateWithUpdateTotalHours= userUpdater(newUserState, 'timeSpent', userTotalHours);
       const totalReportHours = getTotalHours(newUserStateWithUpdateTotalHours.users);
-
       return { ...newUserStateWithUpdateTotalHours, total: `${totalReportHours}` };
       })
   }
@@ -73,33 +72,34 @@ export const TaskRow: FC<TaskRowProps> = ({
         <div>{moment(task.date).format('YYYY-MM-DD')}</div>
       </TableCell>
       <TableCell align="center">
-        <div className="timespent">
-          <EasyEdit
-            type="number"
-            value={task.timeSpent}
-            hideSaveButton
-            hideCancelButton
-            onSave={(value: string) => {
-              updateReport((prevState: ReportResponse) => {
-                const newTaskState = taskUpdater(prevState, 'timeSpent', value);
-                const userTotalHours = getTotalHours(newTaskState.users[userIndex].tasks);
-                const newUserState = userUpdater(newTaskState, 'timeSpent', userTotalHours);
-                const totalReportHours = getTotalHours(newUserState.users);
-                return { ...newUserState, total: `${totalReportHours}` };
-              });
-            }}
-          />
-          <Checkbox
-            color="primary"
-            checked={!task.excluded}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'excluded', !e.target.checked));
-            }}
-          />
-          <Button
-            label="X"
-            onClick={deleteTask}
-          />
+        <div className="timespent-box">
+          <div className="timespent">
+            <EasyEdit
+              type="number"
+              value={task.timeSpent}
+              hideSaveButton
+              hideCancelButton
+              onSave={(value: string) => {
+                updateReport((prevState: ReportResponse) => {
+                  const newTaskState = taskUpdater(prevState, 'timeSpent', value);
+                  const userTotalHours = getTotalHours(newTaskState.users[userIndex].tasks);
+                  const newUserState = userUpdater(newTaskState, 'timeSpent', userTotalHours);
+                  const totalReportHours = getTotalHours(newUserState.users);
+                  return { ...newUserState, total: `${totalReportHours}` };
+                });
+              }}
+            />
+            <Checkbox
+              color="primary"
+              checked={!task.excluded}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                updateReport((prevState: ReportResponse) => taskUpdater(prevState, 'excluded', !e.target.checked));
+              }}
+            />
+          </div>
+          <div className="delete-btn-box">
+            <Button label="X" onClick={deleteTask} />
+          </div>
         </div>
       </TableCell>
     </TableRow>

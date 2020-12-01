@@ -6,10 +6,17 @@
   width: 100%;
 }
 
+.timespent-box {
+  display:flex;
+  justify-content: space-around;
+  padding: 0 50px;
+}
+
 .timespent {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100px;
 }
 
 .comment {
@@ -20,4 +27,9 @@
 
 .comment-cell {
   cursor: pointer;
+}
+
+.delete-btn-box {
+  width: 100px;
+  margin-left: 10px;
 }

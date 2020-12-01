@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useEffect } from 'react';
 import EasyEdit from 'react-easy-edit';
 import shortid from 'shortid';
 
@@ -22,6 +22,12 @@ export const UserRow: FC<UserRowProps> = ({
 }) => {
   const userUpdater = updateUserState(userIndex);
 
+  useEffect(() => {
+    if(!tasks.length) {
+      deleteUser(userIndex);
+    }
+  }, [tasks]);
+
   const addTask = () => {
     updateReport((prevState: ReportResponse) => {
       const newState = prevState.users.map((u, i) => (i === userIndex
@@ -36,6 +42,13 @@ export const UserRow: FC<UserRowProps> = ({
       return { ...prevState, users: newState };
     });
   };
+
+  const deleteUser = (userIndex: number) => {
+    updateReport((prevState: ReportResponse) => {
+      const usersList = prevState.users.filter((u, i) => i !== userIndex);
+      return { ...prevState, users: usersList };
+    })
+  }
 
   return (
     <>
