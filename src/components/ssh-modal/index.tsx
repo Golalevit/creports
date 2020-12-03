@@ -23,10 +23,6 @@ export const SshModal: FC<ISshModal> = ({
     setOpen(false);
   };
 
-  useEffect(() => {
-    console.log(open);
-  },[open])
-
   const useStylesModal = makeStyles({
     paper: {
       padding: 25,
