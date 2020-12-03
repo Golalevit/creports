@@ -129,7 +129,7 @@ const createDefaultFetchWorker = commonWorker(async ({
       await onSuccessHook({ dispatch, data: res.data });
     }
   } catch (error) {
-    dispatch(actionCreator.failed(error.response.data));
+    dispatch(actionCreator.failed(error.response?.data));
 
     if (onFailHook) {
       await onFailHook({ dispatch });
