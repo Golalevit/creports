@@ -31,12 +31,6 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
   const filteredRepositories = repositories.filter((repo1) => projectAliases.every((repo2) => repo1.label !== repo2.alias));
   const [alias, setAlias] = useState<string>('');
 
-  // useEffect(() => {
-  //   if (!repositories.length) {
-  //     dispatch(getRepositoriesWorker());
-  //   }
-  // }, []);
-
   const useStylesModal = makeStyles({
     paper: {
       padding: 25,
