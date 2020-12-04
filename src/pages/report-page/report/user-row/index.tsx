@@ -22,12 +22,6 @@ export const UserRow: FC<UserRowProps> = ({
 }) => {
   const userUpdater = updateUserState(userIndex);
 
-  useEffect(() => {
-    if(!tasks.length) {
-      deleteUser(userIndex);
-    }
-  }, [tasks]);
-
   const addTask = () => {
     updateReport((prevState: ReportResponse) => {
       const newState = prevState.users.map((u, i) => (i === userIndex
@@ -43,12 +37,18 @@ export const UserRow: FC<UserRowProps> = ({
     });
   };
 
-  const deleteUser = (userIndex: number) => {
+  const deleteUser = () => {
     updateReport((prevState: ReportResponse) => {
       const usersList = prevState.users.filter((u, i) => i !== userIndex);
       return { ...prevState, users: usersList };
-    })
-  }
+    });
+  };
+
+  useEffect(() => {
+    if (!tasks.length) {
+      deleteUser();
+    }
+  }, [tasks]);
 
   return (
     <>
