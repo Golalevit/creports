@@ -12,7 +12,7 @@ import { TaskRowProps } from './types';
 import './task-row.scss';
 
 export const TaskRow: FC<TaskRowProps> = ({
-  task, userIndex, taskIndex, updateReport,
+  task, userIndex, taskIndex, updateReport
 }) => {
   const taskUpdater = updateTaksState(userIndex, taskIndex);
   const userUpdater = updateUserState(userIndex);
