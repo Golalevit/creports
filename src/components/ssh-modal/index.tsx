@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react'
-import { ISshModal } from '@components/ssh-modal/types';
+import React, { ChangeEvent, FC, useState } from 'react';
+import { SshModalProps } from '@components/ssh-modal/types';
 import { Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchRepositoriesBySshWorker, getAliasRepositoriesWorker, getRepositoriesWorker } from '@store/repositories/repositories.actions';
@@ -7,10 +7,10 @@ import { useDispatch } from 'react-redux';
 import { Input } from '@components/ui-kit/input';
 import { Button } from '@components/ui-kit/button';
 
-export const SshModal: FC<ISshModal> = ({
+export const SshModal: FC<SshModalProps> = ({
   open,
   setOpen,
-}) => {
+}): JSX.Element => {
   const dispatch = useDispatch();
   const [aliasName, setAliasName] = useState<string>('');
   const [sshUrl, setSshUrl] = useState<string>('');
@@ -45,24 +45,24 @@ export const SshModal: FC<ISshModal> = ({
         <Input label="Alias" value={aliasName} onChange={(e: ChangeEvent<HTMLInputElement>) => setAliasName(e.target.value)}/>
         <div className="button">
           <Button
-            label={'CREATE ALIAS'}
+            label="CREATE ALIAS"
             disabled={!aliasName?.length}
-            onClick={() => {
-                dispatch(fetchRepositoriesBySshWorker(
-                  { sshUrl, sshPrivateKey, alias: aliasName },
-                  {
-                      cOnSuccess: () => {
-                        dispatch(getRepositoriesWorker());
-                        dispatch(getAliasRepositoriesWorker(aliasName));
-                        resetStates();
-                      },
+            onClick={(): void => {
+              dispatch(fetchRepositoriesBySshWorker(
+                { sshUrl, sshPrivateKey, alias: aliasName },
+                {
+                  cOnSuccess: () => {
+                    dispatch(getRepositoriesWorker());
+                    dispatch(getAliasRepositoriesWorker(aliasName));
+                    resetStates();
                   },
-                  )
-                );
-              }}
-            />
+                },
+              ),
+              );
+            }}
+          />
         </div>
       </div>
     </Dialog>
-  )
-}
+  );
+};

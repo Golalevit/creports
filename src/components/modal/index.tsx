@@ -6,7 +6,7 @@ import { FiltersConfig } from '@pages/stats-page/types';
 import {
   addAliasWorker,
   getAliasRepositoriesWorker,
-  getRepositoriesWorker, getUsersWorker,
+  getRepositoriesWorker,
   updateAliasWorker,
 } from '@store/repositories/repositories.actions';
 import { useDispatch, useSelector } from 'react-redux';

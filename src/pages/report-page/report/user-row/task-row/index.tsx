@@ -30,8 +30,8 @@ export const TaskRow: FC<TaskRowProps> = ({
       const newUserStateWithUpdateTotalHours= userUpdater(newUserState, 'timeSpent', userTotalHours);
       const totalReportHours = getTotalHours(newUserStateWithUpdateTotalHours.users);
       return { ...newUserStateWithUpdateTotalHours, total: `${totalReportHours}` };
-      })
-  }
+    });
+  };
 
   return (
     <TableRow className="worklog">
