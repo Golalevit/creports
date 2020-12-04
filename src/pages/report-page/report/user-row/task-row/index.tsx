@@ -12,7 +12,7 @@ import { TaskRowProps } from './types';
 import './task-row.scss';
 
 export const TaskRow: FC<TaskRowProps> = ({
-  task, userIndex, taskIndex, updateReport
+  task, userIndex, taskIndex, updateReport,
 }) => {
   const taskUpdater = updateTaksState(userIndex, taskIndex);
   const userUpdater = updateUserState(userIndex);
@@ -24,10 +24,10 @@ export const TaskRow: FC<TaskRowProps> = ({
 
   const deleteTask = () => {
     updateReport((prevState: ReportResponse) => {
-      const tasks = prevState.users[userIndex]?.tasks.filter(t => task.taskId !== t.taskId);
+      const tasks = prevState.users[userIndex]?.tasks.filter((t) => task.taskId !== t.taskId);
       const newUserState = userUpdater(prevState, 'tasks', tasks);
       const userTotalHours = getTotalHours(newUserState.users[userIndex].tasks);
-      const newUserStateWithUpdateTotalHours= userUpdater(newUserState, 'timeSpent', userTotalHours);
+      const newUserStateWithUpdateTotalHours = userUpdater(newUserState, 'timeSpent', userTotalHours);
       const totalReportHours = getTotalHours(newUserStateWithUpdateTotalHours.users);
       return { ...newUserStateWithUpdateTotalHours, total: `${totalReportHours}` };
     });

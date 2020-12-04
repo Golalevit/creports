@@ -1,4 +1,6 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent, FC, useEffect, useState,
+} from 'react';
 import { AddProjectAliasProps } from '@components/modal/types';
 import { Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';

@@ -10,7 +10,7 @@ import { Button } from '@components/ui-kit/button';
 export const SshModal: FC<SshModalProps> = ({
   open,
   setOpen,
-}): JSX.Element => {
+}) => {
   const dispatch = useDispatch();
   const [aliasName, setAliasName] = useState<string>('');
   const [sshUrl, setSshUrl] = useState<string>('');
@@ -40,9 +40,9 @@ export const SshModal: FC<SshModalProps> = ({
       fullWidth
     >
       <div>
-        <Input label="SSH" value = {sshUrl} onChange = {(e:ChangeEvent<HTMLInputElement>) => setSshUrl(e.target.value)} />
-        <Input label="SSH private key" value = {sshPrivateKey} onChange = {(e:ChangeEvent<HTMLInputElement>) => setSshPrivateKey(e.target.value)} />
-        <Input label="Alias" value={aliasName} onChange={(e: ChangeEvent<HTMLInputElement>) => setAliasName(e.target.value)}/>
+        <Input label="SSH" value={sshUrl} onChange={(e: ChangeEvent<HTMLInputElement>) => setSshUrl(e.target.value)} />
+        <Input label="SSH private key" value={sshPrivateKey} onChange={(e: ChangeEvent<HTMLInputElement>) => setSshPrivateKey(e.target.value)} />
+        <Input label="Alias" value={aliasName} onChange={(e: ChangeEvent<HTMLInputElement>) => setAliasName(e.target.value)} />
         <div className="button">
           <Button
             label="CREATE ALIAS"
@@ -57,8 +57,7 @@ export const SshModal: FC<SshModalProps> = ({
                     resetStates();
                   },
                 },
-              ),
-              );
+              ));
             }}
           />
         </div>
