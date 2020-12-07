@@ -32,11 +32,12 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
   const { aliasRepositories: projectAliases } = useSelector(getAliasRepositories);
   const filteredRepositories = repositories.filter((repo1) => projectAliases.every((repo2) => repo1.label !== repo2.alias));
   const [alias, setAlias] = useState<string>('');
+  const [sshKey, setSshKey] = useState<string>('');
 
   const useStylesModal = makeStyles({
     paper: {
       padding: 25,
-      height: 185,
+      height: 225,
     },
   });
 
@@ -56,6 +57,7 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
     });
     setAliasName(null);
     setAlias('');
+    setSshKey('');
   };
 
   useEffect(() => {
@@ -98,7 +100,18 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
           </div>
         </div>
         {filters.projects.length ? (
-          <Input label="Alias" value={alias} onChange={(e: ChangeEvent<HTMLInputElement>) => setAlias(e.target.value)} />
+          <>
+            <Input
+              label="Alias"
+              value={alias}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setAlias(e.target.value)}
+            />
+            <Input
+              label="SSH private key"
+              value={sshKey}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSshKey(e.target.value)}
+            />
+          </>
         ) : null}
       </div>
       <div className="button">
@@ -107,9 +120,10 @@ export const AddProjectAliasModal: FC<AddProjectAliasProps> = ({
           onClick={() => {
             if (aliasName) {
               dispatch(
-                updateAliasWorker(aliasName)(
+                updateAliasWorker(aliasName, sshKey)(
                   {
                     alias,
+                    sshKey,
                     repos: filters.projects.map((item) => item.label),
                   },
                   {
