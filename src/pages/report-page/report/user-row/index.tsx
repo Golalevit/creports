@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useEffect } from 'react';
 import EasyEdit from 'react-easy-edit';
 import shortid from 'shortid';
 
@@ -36,6 +36,19 @@ export const UserRow: FC<UserRowProps> = ({
       return { ...prevState, users: newState };
     });
   };
+
+  const deleteUser = () => {
+    updateReport((prevState: ReportResponse) => {
+      const usersList = prevState.users.filter((u, i) => i !== userIndex);
+      return { ...prevState, users: usersList };
+    });
+  };
+
+  useEffect(() => {
+    if (!tasks.length) {
+      deleteUser();
+    }
+  }, [tasks]);
 
   return (
     <>
