@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import { SshModalProps } from '@components/ssh-modal/types';
+import { SshModalProps } from '@pages/projects-page/ssh-modal/types';
 import { Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchRepositoriesBySshWorker, getAliasRepositoriesWorker, getRepositoriesWorker } from '@store/repositories/repositories.actions';

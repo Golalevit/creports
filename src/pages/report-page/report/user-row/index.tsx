@@ -37,7 +37,7 @@ export const UserRow: FC<UserRowProps> = ({
     });
   };
 
-  const deleteUser = (): void => {
+  const deleteUser = () => {
     updateReport((prevState: ReportResponse) => {
       const usersList = prevState.users.filter((u, i) => i !== userIndex);
       return { ...prevState, users: usersList };

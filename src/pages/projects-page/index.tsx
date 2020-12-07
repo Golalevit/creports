@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@components/ui-kit/button';
 import { getAliasRepositories } from '@store/repositories/repositories.selectors';
 import { getAliasRepositoriesWorker, getRepositoriesWorker } from '@store/repositories/repositories.actions';
-import { AddProjectAliasModal } from '@components/modal';
-import { SshModal } from '@components/ssh-modal';
+import { AddProjectAliasModal } from '@pages/projects-page/modal';
+import { SshModal } from '@pages/projects-page/ssh-modal';
 import { Projects } from '@pages/projects-page/projects';
 import { Spinner } from '@components/spinner';
 
