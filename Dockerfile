@@ -16,6 +16,6 @@ COPY --from=builder /app/build /usr/share/nginx/html
 COPY ./vhosts.conf /etc/nginx/conf.d/default.conf
 
 CMD sed -i -e 's@__API_URL@'"$API_URL"'@g' /usr/share/nginx/html/static/js/*.chunk.js && \
-sed -i -e 's@__AIS_LOGIN_URL@'"$AIS_LOGIN_URL"'@g' /usr/share/nginx/html/static/js/*.chunk.js && \
-sed -i -e 's@__GOOGLE_LOGIN_ID@'"$GOOGLE_LOGIN_ID"'@g' /usr/share/nginx/html/static/js/*.chunk.js && \
-nginx -g "daemon off;"
+    sed -i -e 's@__AIS_LOGIN_URL@'"$AIS_LOGIN_URL"'@g' /usr/share/nginx/html/static/js/*.chunk.js && \
+    sed -i -e 's@__GOOGLE_LOGIN_ID@'"$GOOGLE_LOGIN_ID"'@g' /usr/share/nginx/html/static/js/*.chunk.js && \
+    nginx -g "daemon off;"

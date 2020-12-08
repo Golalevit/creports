@@ -43,7 +43,7 @@ export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GE
 
 export const addAliasWorker = createDefaultFetchWorker(addAlias, '/repository/aliases', 'post');
 
-export const updateAliasWorker = (oldAlias: string) => createDefaultFetchWorker(addAlias, `/repository/aliases/alias=${oldAlias}`, 'put');
+export const updateAliasWorker = (oldAlias: string, sshKey: string) => createDefaultFetchWorker(addAlias, `/repository/aliases/alias=${oldAlias}`, 'put');
 
 export const deleteAliasWorker = (alias: string) => createDefaultFetchWorker(deleteAlias, `/repository/aliases/alias=${alias}`, 'delete');
 
