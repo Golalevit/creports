@@ -1,7 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { clearStateActionWorker, createDefaultFetchWorker } from '@utils/builder/default-actions';
 import { ErrorResponse } from '@store/types';
-import { RepositoriesResponse, StatsResponse } from '@store/repositories/types';
+import { RepositoriesResponse, StatsResponse, SshKeyResponse } from '@store/repositories/types';
 
 const actionCreator = actionCreatorFactory('REPOSITORY');
 
@@ -37,13 +37,17 @@ export const fetchRepositories = actionCreator.async<object, RepositoriesRespons
   'FETCH_REPOSITORIES',
 );
 
+export const getSshKey = actionCreator.async<object, SshKeyResponse, ErrorResponse>(
+  'GET_SSH_KEY',
+);
+
 export const resetUsersWorker = clearStateActionWorker(resetUsers);
 
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
 
 export const addAliasWorker = createDefaultFetchWorker(addAlias, '/repository/aliases', 'post');
 
-export const updateAliasWorker = (oldAlias: string, sshKey: string) => createDefaultFetchWorker(addAlias, `/repository/aliases/alias=${oldAlias}`, 'put');
+export const updateAliasWorker = (oldAlias: string) => createDefaultFetchWorker(addAlias, `/repository/aliases/alias=${oldAlias}`, 'put');
 
 export const deleteAliasWorker = (alias: string) => createDefaultFetchWorker(deleteAlias, `/repository/aliases/alias=${alias}`, 'delete');
 
@@ -63,8 +67,6 @@ export const getStatsWorker = createDefaultFetchWorker(getStats, '/repository/st
 
 export const getUsersWorker = createDefaultFetchWorker(getUsers, '/repository/users', 'post');
 
-export const fetchRepositoriesBySshWorker = createDefaultFetchWorker(
-  fetchRepositories,
-  '/repository',
-  'post',
-);
+export const fetchRepositoriesBySshWorker = createDefaultFetchWorker(fetchRepositories, '/repository', 'post');
+
+export const getSshKeyWorker = createDefaultFetchWorker(getSshKey, '/repository/sshkey', 'get');

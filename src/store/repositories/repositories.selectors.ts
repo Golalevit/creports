@@ -21,3 +21,5 @@ export const getStats = createSelector(getRepositoriesState, ({ stats, statsLoad
   stats,
   statsLoading,
 }));
+
+export const getSshKey = createSelector(getRepositoriesState, (state) => state.sshKey);

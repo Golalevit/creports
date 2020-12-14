@@ -3,6 +3,10 @@ export interface RepositoriesResponse {
   label: string;
 }
 
+export interface SshKeyResponse {
+  publicKey: string;
+}
+
 export interface AliasRepositoriesResponse extends RepositoriesResponse {
   alias: string;
   projects: string[];
@@ -18,6 +22,7 @@ export interface RepositoriesState {
   usersLoading: boolean;
   stats: StatsResponse[];
   statsLoading: boolean;
+  sshKey: SshKeyResponse;
 }
 
 export interface StatsResponse {

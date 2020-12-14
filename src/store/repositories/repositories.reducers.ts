@@ -6,7 +6,7 @@ import { Action } from '@utils/builder/types';
 import {
   getRepositories,
   getUsers,
-  getStats, resetUsers, getAliasRepositories,
+  getStats, resetUsers, getAliasRepositories, getSshKey,
 } from '@store/repositories/repositories.actions';
 import { RepositoriesState } from './types';
 
@@ -20,6 +20,9 @@ const initialState: RepositoriesState = {
   stats: [],
   statsLoading: false,
   repositoryId: null,
+  sshKey: {
+    publicKey: '',
+  },
 };
 
 export const repositoriesReducer = (state = initialState, action: Action): RepositoriesState => {
@@ -45,6 +48,11 @@ export const repositoriesReducer = (state = initialState, action: Action): Repos
       dataMask: 'stats',
       errorMask: 'repositoriesError',
       loadingMask: 'statsLoading',
+    }),
+    ...defaultReducerActionCreator(getSshKey, state, action, {
+      dataMask: 'sshKey',
+      errorMask: 'repositoriesError',
+      loadingMask: 'repositoriesLoading',
     }),
   };
   return states[type] || state;
