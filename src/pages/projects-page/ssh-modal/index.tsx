@@ -8,7 +8,7 @@ import { SshModalProps } from '@pages/projects-page/ssh-modal/types';
 import { Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  fetchRepositoriesBySshWorker,
+  getRepositoryBySshWorker,
   getAliasRepositoriesWorker,
   getRepositoriesWorker,
   getSshKeyWorker,
@@ -52,6 +52,7 @@ export const SshModal: FC<SshModalProps> = ({
       open={open}
       onClose={() => {
         setOpen(false);
+        resetStates();
       }}
       classes={classesModal}
       fullWidth
@@ -65,7 +66,7 @@ export const SshModal: FC<SshModalProps> = ({
             label="CREATE ALIAS"
             disabled={!aliasName?.length}
             onClick={(): void => {
-              dispatch(fetchRepositoriesBySshWorker(
+              dispatch(getRepositoryBySshWorker(
                 { sshUrl, alias: aliasName },
                 {
                   cOnSuccess: () => {
