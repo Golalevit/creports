@@ -33,8 +33,8 @@ export const resetUsers = actionCreator(
   'RESET_USERS',
 );
 
-export const fetchRepositories = actionCreator.async<object, RepositoriesResponse[], ErrorResponse>(
-  'FETCH_REPOSITORIES',
+export const getRepositoryBySsh = actionCreator.async<object, RepositoriesResponse[], ErrorResponse>(
+  'GET_REPOSITORY_BY_SSH',
 );
 
 export const getSshKey = actionCreator.async<object, SshKeyResponse, ErrorResponse>(
@@ -67,6 +67,6 @@ export const getStatsWorker = createDefaultFetchWorker(getStats, '/repository/st
 
 export const getUsersWorker = createDefaultFetchWorker(getUsers, '/repository/users', 'post');
 
-export const fetchRepositoriesBySshWorker = createDefaultFetchWorker(fetchRepositories, '/repository', 'post');
+export const getRepositoryBySshWorker = createDefaultFetchWorker(getRepositoryBySsh, '/repository', 'post');
 
 export const getSshKeyWorker = createDefaultFetchWorker(getSshKey, '/repository/sshkey', 'get');
