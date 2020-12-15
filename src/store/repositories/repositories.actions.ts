@@ -41,10 +41,6 @@ export const getSshKey = actionCreator.async<object, SshKeyResponse, ErrorRespon
   'GET_SSH_KEY',
 );
 
-export const getSshKey = actionCreator.async<object, SshKeyResponse, ErrorResponse>(
-  'GET_SSH_KEY',
-);
-
 export const resetUsersWorker = clearStateActionWorker(resetUsers);
 
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
