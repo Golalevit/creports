@@ -23,3 +23,8 @@ export const getStats = createSelector(getRepositoriesState, ({ stats, statsLoad
 }));
 
 export const getSshKey = createSelector(getRepositoriesState, (state) => state.sshKey);
+
+export const getAliasesData = createSelector(
+  getRepositoriesState,
+  ({ aliasesLoading, aliases }) => ({ aliasesLoading, aliases }),
+);

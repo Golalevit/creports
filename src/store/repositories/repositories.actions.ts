@@ -41,6 +41,10 @@ export const getSshKey = actionCreator.async<object, SshKeyResponse, ErrorRespon
   'GET_SSH_KEY',
 );
 
+export const getAliases = actionCreator.async<object, string[], ErrorResponse>(
+  'GET_ALIASES',
+);
+
 export const resetUsersWorker = clearStateActionWorker(resetUsers);
 
 export const getUsers = actionCreator.async<object, string[], ErrorResponse>('GET_USERS');
@@ -70,3 +74,5 @@ export const getUsersWorker = createDefaultFetchWorker(getUsers, '/repository/us
 export const getRepositoryBySshWorker = createDefaultFetchWorker(getRepositoryBySsh, '/repository', 'post');
 
 export const getSshKeyWorker = createDefaultFetchWorker(getSshKey, '/repository/sshkey', 'get');
+
+export const getAliasesWorker = createDefaultFetchWorker(getAliases, '/repository/aliases', 'get');
