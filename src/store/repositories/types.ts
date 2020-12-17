@@ -12,6 +12,11 @@ export interface AliasRepositoriesResponse extends RepositoriesResponse {
   projects: string[];
 }
 
+export interface RepositoriesErrorResponse {
+  code: number,
+  message: string,
+}
+
 export interface RepositoriesState {
   repositoryId: number | null;
   repositories: RepositoriesResponse[];
@@ -23,6 +28,7 @@ export interface RepositoriesState {
   stats: StatsResponse[];
   statsLoading: boolean;
   sshKey: SshKeyResponse;
+  repositoriesError: RepositoriesErrorResponse | null;
 }
 
 export interface StatsResponse {

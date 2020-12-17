@@ -16,17 +16,20 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@components/ui-kit/input';
 import { Button } from '@components/ui-kit/button';
-import { getSshKey } from '@store/repositories/repositories.selectors';
+import { getSshKey, getErrorMsg } from '@store/repositories/repositories.selectors';
+import './ssh-modal.scss';
 
 export const SshModal: FC<SshModalProps> = ({
   open,
   setOpen,
 }) => {
   const dispatch = useDispatch();
-  const [aliasName, setAliasName] = useState<string>('');
-  const [sshUrl, setSshUrl] = useState<string>('');
 
   const { publicKey } = useSelector(getSshKey);
+  const sshError = useSelector(getErrorMsg);
+
+  const [aliasName, setAliasName] = useState<string>('');
+  const [sshUrl, setSshUrl] = useState<string>('');
 
   const resetStates = () => {
     setSshUrl('');
@@ -61,6 +64,7 @@ export const SshModal: FC<SshModalProps> = ({
         <Input label="SSH" value={sshUrl} onChange={(e: ChangeEvent<HTMLInputElement>) => setSshUrl(e.target.value)} />
         <Input label="Alias" value={aliasName} onChange={(e: ChangeEvent<HTMLInputElement>) => setAliasName(e.target.value)} />
         <Input label="SSH public key for the version-control system" value={publicKey} />
+        { sshError && <span className="ssh-error">The repository already exists or the public key has not been added to version control system</span> }
         <div className="button">
           <Button
             label="CREATE ALIAS"
